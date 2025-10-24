@@ -1,509 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mehfooz | Digital Enlightenment</title>
-    <meta content="Digital Enlightenment for the modern age. Guiding your journey with wisdom and clarity." name="description">
-    <meta content="Mehfooz | Digital Enlightenment" property="og:title">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <link rel="stylesheet" href="style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Nunito+Sans:wght@400;700;800&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
 
-    <style>
-      /* --- 1. HUB CYCLE BASE STYLES (REQUIRED FOR LAYOUT) --- */
-      @import url("https://assets.slater.app/slater/15889/43231.css?v=630500");
-
-      /* --- 2. CORE MEHFOOZ VARIABLES & OVERRIDES --- */
-      :root {
-          /* Mehfooz Colors (Primary Color Palette) */
-          --color-primary: #1A120B;      /* Dark Background */
-          --color-text: #EAE0D5;         /* Light Text */
-          --color-accent-gold: #DAA520;  /* Gold Accent */
-          --color-accent-teal: #008080;  /* Teal Secondary Accent */
-          --color-dark: #0D0907;
-          --color-light: #F5F0E8;
-          --color-medium: #A8A29A;
-          
-          /* Mehfooz Font Overrides */
-          --font--heading: 'Cormorant Garamond', Georgia, serif;
-          --font--text: 'Nunito Sans', sans-serif;
-          --fontweight--xregular: 500;
-          
-          /* Hubcycle Variable Mapping (CRITICAL for dark theme application) */
-          --_colorbrands---bg: var(--color-primary);
-          --_colorbrands---text: var(--color-text);
-          --_colorbrands---heading: var(--color-accent-gold);
-          --_color-swatches---dark: var(--color-dark);
-          --_color-swatches---light-grey: var(--color-text);
-          --_color-swatches---brand: var(--color-accent-gold);
-          --_color-swatches---brand-secondary: var(--color-accent-teal);
-          --_color-swatches---lightblue: var(--color-text); 
-      }
-
-      /* --- Global Overrides for Visual Consistency --- */
-      body {
-          background-color: var(--color-primary);
-          color: var(--color-text);
-          font-family: var(--font--text); 
-      }
-      h1, h2, h3, h4, h5, h6, .heading-style-h1, .heading-style-h2, .heading-style-h3, .heading-style-h4 {
-          font-family: var(--font--heading);
-          color: var(--color-text); 
-      }
-      .navbar-fixed, .navbar-main { background-color: var(--color-primary); border-bottom: 1px solid var(--color-dark); }
-      .nav_contact-wrapper { background-color: var(--color-accent-gold) !important; }
-      .nav_contact-wrapper div { color: var(--color-primary) !important; }
-      .text-color_light-blue, .text-color_white, .text-color_secondary { color: var(--color-text) !important; }
-      .heading-span, .text-color-coral, .u-brand-2 h4, .text-color_black { color: var(--color-accent-gold) !important; }
-      .button-secondary.is-brand { background-color: var(--color-accent-gold); }
-      .button-secondary.is-brand div { color: var(--color-primary); }
-      .button-secondary.is-lightblue, .button-secondary.is-lightblue:hover { background-color: var(--color-accent-teal) !important; }
-      .button-secondary.is-lightblue div { color: var(--color-light); }
-      .form_field-input { background-color: var(--color-light) !important; border: 1px solid var(--color-accent-teal) !important; color: var(--color-primary) !important; }
-      .contact-form_cta-wrapper { background-color: var(--color-accent-teal) !important; }
-      .footer-line { background-color: var(--color-accent-gold) !important; }
-      .manifesto-right { background-color: var(--color-accent-gold) !important; }
-      .manifesto-right_content .heading-style-h4 { color: var(--color-primary) !important; }
-      .manifesto-right .button-secondary.is-contact { background-color: var(--color-primary) !important; }
-      .manifesto-right .button-secondary.is-contact div { color: var(--color-accent-gold) !important; }
-
-      /* --- Hero Fix: Vertical Flow for Stability (Hubcycle's horizontal scroll is disabled) --- */
-      .scroll_horizontal_contain { overflow: visible !important; }
-      .scroll_horizontal_inner { width: 100% !important; }
-      .scroll_horizontal_track { display: block !important; }
-      .scroll_horizontal_hero_wrap { width: 100% !important; margin-bottom: 60px; padding: 20px; }
-      .section.is-hero { padding-top: 100px; padding-bottom: 100px; height: auto !important; }
-      
-      /* --- Custom Mehfooz Particle/Intro Styles --- */
-      #cosmic-bg {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
-          background-color: var(--color-primary);
-          opacity: 0.95;
-      }
-      .loading-screen {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background-color: var(--color-primary);
-          z-index: 1000;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transition: opacity 1s ease-out;
-      }
-      .loading-content { text-align: center; }
-      .loading-logo { 
-          font-family: var(--font--heading); 
-          font-size: 4rem; 
-          color: var(--color-accent-gold); 
-          animation: pulse 1.5s infinite alternate;
-      }
-      @keyframes pulse {
-          from { opacity: 0.8; transform: scale(1); }
-          to { opacity: 1; transform: scale(1.05); }
-      }
-    </style>
 </head>
-<body class="is-homepage">
+<body class="antialiased">
+    <div id="cursor-dot"></div>
+    <div id="cursor-light"></div>
 
-    <div id="cosmic-bg"></div>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="loading-screen" id="loading-screen">
+    <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
             <div class="loading-logo">Mehfooz</div>
-            <div class="text-size-regular" style="color:var(--color-accent-teal);">Digital Enlightenment</div>
+            <div class="loading-particles" id="loadingParticles"></div>
+        </div>
+    </div>
+    <div class="intro-game" id="introGame">
+        <div class="game-container">
+            <h1 class="game-title">Welcome to Mehfooz</h1>
+            <p class="game-description">Gather the sparks of light to begin your journey.</p>
+            <div class="spark-container" id="sparkContainer">
+                <div class="spark"></div>
+                <div class="spark"></div>
+                <div class="spark"></div>
+                <div class="spark"></div>
+            </div>
+            <button class="game-skip" id="gameSkip">Skip Intro (Press ESC or S)</button>
         </div>
     </div>
 
-    <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-fixed w-nav">
-        <div class="navbar-main">
-            <div class="container is-nav">
-                <div class="navbar-wrapper">
-                    <a href="#home" aria-current="page" class="link_site-brand w-nav-brand w--current">
-                        <div class="heading-style-h4" style="color:var(--color-accent-gold);">
-                            Mehfooz
+    <div class="cosmic-background" id="cosmicBackground"></div>
+    <div class="static-background" id="staticBackground"></div>
+
+    <div id="site-wrapper" class="opacity-0">
+        <header id="site-header" class="site-header">
+            <nav class="container" aria-label="Main navigation">
+                <div class="header-left">
+                    <a href="#home" class="nav-logo">Mehfooz</a>
+                </div>
+                <div class="header-right">
+                    <div class="nav-links" id="nav-links">
+                        <a href="#challenge" class="nav-link">The Calling</a>
+                        <a href="#story" class="nav-link">Our Story</a>
+                        <a href="#approach" class="nav-link">Approach</a>
+                        <a href="#difference" class="nav-link">Difference</a>
+                        <a href="#community" class="nav-link">Community</a>
+                        <a href="#insights" class="nav-link">Insights</a>
+                        <a href="#vision" class="nav-link">Vision</a>
+                        <a href="#connect" class="nav-link btn btn-outline">Join Us</a>
+                    </div>
+                    <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-controls="nav-links" aria-expanded="false">
+                        <span class="sr-only">Menu</span>
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main id="main-content">
+            <section id="home" class="hero-section">
+                <div class="hero-content-container container">
+                    <div class="hero-content">
+                        <h1 id="hero-headline">Clarity in the Digital Crossroads.</h1>
+                        <p id="hero-subheadline">Empowering the communities of Gilgit Baltistan with the tools to navigate the digital world safely and confidently.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="featured-in" class="featured-section">
+                <div class="container">
+                    <div class="featured-bar reveal-up">
+                        <div class="featured-title">
+                            Featured in
                         </div>
-                    </a>
+                        <div class="featured-logos">
+                            <img src="https://framerusercontent.com/images/ZWIiWrxAqLllrERBNLU2Ib1wY0U.png" alt="Edtech Pakistan Logo" title="Edtech Pakistan">
+                            <img src="https://images.squarespace-cdn.com/content/v1/650a374d936996258cfcbd33/99cae4e7-0ced-4c03-ae57-1fefbee86ee5/KXI_Logo_Website.png?format=1500w" alt="KXI Logo" title="KXI">
+                            <img src="https://framerusercontent.com/images/vZYsCyjlRXEua2Wj3mc2v0uufSk.svg" alt="Rhodes Trust Logo" title="Rhodes Trust">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="challenge" class="content-section">
+                <canvas id="network-canvas"></canvas>
+                <div class="container mx-auto max-w-4xl text-center">
+                    <div class="section-header reveal-up">
+                        <h2 class="section-title">The Challenge & The Calling</h2>
+                        <h3 class="section-subtitle">Where Progress Meets Peril</h3>
+                        <p class="section-body">In Gilgit Baltistan, rapid technological adoption is outpacing digital literacy. This creates a critical gap, leaving communities vulnerable to tech-enabled misinformation, inadequate online safety practices, and digital exclusion. We exist to bridge this gap.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="story" class="content-section">
+                <div class="container mx-auto max-w-4xl">
+                    <div class="flex flex-col md:flex-row gap-12 items-center">
+                        <div class="w-full md:w-1/2">
+                            <div class="journal-image-container reveal-up">
+                                <img src="https://framerusercontent.com/images/Fk9ZcXwxKKdy8uszFQl0yoC1V6I.png"
+                                     alt="Stylized graphic representing digital connection and community in Gilgit Baltistan."
+                                     loading="lazy">
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <h2 class="section-title reveal-up">From Our Journal</h2>
+                            <p class="section-body text-left reveal-up">Mehfooz began not with a line of code, but with a conversation. In a small <strong>Skardu</strong> teahouse, over cups of warm chai, we listened.</p>
+                            <p class="section-body text-left reveal-up">We heard stories of connection and confusion, of hope and fear in a new digital world. We learned that the need wasn't for more technology, but for more understanding. For a bridge between timeless wisdom and modern tools. Mehfooz is our promise to help build that bridge, together.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="approach" class="content-section">
+                <div class="container mx-auto max-w-5xl">
+                    <div class="text-center mb-20 section-header reveal-up">
+                        <h2 class="section-title">An Ecosystem of Empowerment</h2>
+                        <p class="section-body">Our solution is a unique, three-pronged approach that integrates culture, technology, and community to create a sustainable cycle of learning and trust.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-12 text-center">
+                        <div class="pillar-card reveal-up">
+                            <div class="pillar-card-content">
+                                <h3 class="pillar-title">Wisdom, Amplified</h3>
+                                <p class="pillar-body">We don't just provide information; we build on existing foundations of trust by collaborating with local religious leaders (Ulema), empowering them as trusted digital literacy ambassadors within their communities.</p>
+                            </div>
+                        </div>
+                        <div class="pillar-card reveal-up">
+                            <div class="pillar-card-content">
+                                <h3 class="pillar-title">Personalized Guidance. Instantly.</h3>
+                                <p class="pillar-body">Harnessing AI, MehfoozBot offers personal, patient help, adapting to each user's language and learning style, making technology feel like a friend.</p>
+                            </div>
+                            <button id="open-bot-demo-approach" class="btn btn-secondary mt-6">See MehfoozBot in Action</button>
+                        </div>
+                        <div class="pillar-card reveal-up">
+                            <div class="pillar-card-content">
+                                <h3 class="pillar-title">Knowledge, Co-Created</h3>
+                                <p class="pillar-body">Through short, localized mini-courses and a unique feedback ecosystem with local college students, we ensure our knowledge is always relevant, effective, and built with the community, for the community.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="difference" class="content-section">
+                <div class="container mx-auto max-w-5xl">
+                    <div class="text-center mb-20 section-header reveal-up">
+                        <h2 class="section-title">The Mehfooz Difference</h2>
+                        <p class="section-body">We are committed to revolutionizing digital literacy by integrating state-of-the-art technology with deep community engagement. Here's how we set ourselves apart.</p>
+                    </div>
+                    <div class="comparison-table-wrapper reveal-up">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature / Approach</th>
+                                    <th class="our-column">Mehfooz Internet</th>
+                                    <th>Digital Rights Foundation</th>
+                                    <th>Soch Fact Check</th>
+                                    <th>Media Matters</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>AI-Powered Personalization</td><td class="check-mark our-column">✓</td><td></td><td></td><td></td></tr>
+                                <tr><td>Ulema Partnership Model</td><td class="check-mark our-column">✓</td><td></td><td></td><td></td></tr>
+                                <tr><td>Student Feedback Ecosystem</td><td class="check-mark our-column">✓</td><td></td><td></td><td></td></tr>
+                                <tr><td>Content in Indigenous Languages</td><td class="check-mark our-column">✓</td><td></td><td></td><td></td></tr>
+                                <tr><td>Singular Focus on Misinformation</td><td class="check-mark our-column">✓</td><td class="check-mark">✓</td><td class="check-mark">✓</td><td></td></tr>
+                                <tr><td>Multi-Platform Social Media Delivery</td><td class="check-mark our-column">✓</td><td class="check-mark">✓</td><td class="check-mark">✓</td><td class="check-mark">✓</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="community" class="content-section">
+                <div class="container mx-auto max-w-4xl">
+                    <div class="text-center mb-16 section-header reveal-up">
+                        <h2 class="section-title">The Heart of Our Community</h2>
+                        <h3 class="section-subtitle">Voices from the Valley</h3>
+                    </div>
+                    <div class="space-y-8">
+                        <blockquote class="custom-blockquote reveal-up">
+                            <p>"For the first time, I felt I could ask a 'silly' question about my phone without feeling embarrassed. Mehfooz looks promising."</p>
+                            <cite>- A student from Gilgit</cite>
+                        </blockquote>
+                        <blockquote class="custom-blockquote text-right reveal-up">
+                            <p>"They didn't come to teach; they came to learn with us. That is why we trust them."</p>
+                            <cite>- An elder from <strong>Skardu</strong></cite>
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <section id="insights" class="content-section">
+                <div class="container mx-auto max-w-5xl">
+                    <div class="text-center mb-20 section-header reveal-up">
+                        <h2 class="section-title">Insights from the Digital Frontier</h2>
+                        <p class="section-body">Explore our latest research, field notes, and data on digital literacy, misinformation, and community resilience in Gilgit Baltistan.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        <div class="insight-card reveal-up">
+                            <img src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Data charts on a screen" class="insight-card-img">
+                            <div class="insight-card-content">
+                                <div class="insight-card-text">
+                                    <p class="insight-card-category">Report</p>
+                                    <h3 class="insight-card-title">The Anatomy of a Viral Rumor in Skardu Valley</h3>
+                                    <p class="insight-card-excerpt">Our deep-dive analysis tracks a single piece of misinformation from a WhatsApp group to widespread community belief, revealing critical intervention points.</p>
+                                </div>
+                                <a href="#" class="insight-card-link">Read More &rarr;</a>
+                            </div>
+                        </div>
+                        <div class="insight-card reveal-up">
+                            <img src="https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="A person using a smartphone" class="insight-card-img">
+                            <div class="insight-card-content">
+                                <div class="insight-card-text">
+                                    <p class="insight-card-category">Field Note</p>
+                                    <h3 class="insight-card-title">"I didn't know it was fake": First Impressions of MehfoozBot</h3>
+                                    <p class="insight-card-excerpt">Early user testimonials highlight the power of non-judgmental, AI-powered guidance in building digital confidence and critical thinking skills.</p>
+                                </div>
+                                <a href="#" class="insight-card-link">Read More &rarr;</a>
+                            </div>
+                        </div>
+                        <div class="insight-card reveal-up">
+                            <img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="People collaborating around a table" class="insight-card-img">
+                            <div class="insight-card-content">
+                                <div class="insight-card-text">
+                                    <p class="insight-card-category">Data Point</p>
+                                    <h3 class="insight-card-title">Language & Trust: Why Hyper-Localization is Non-Negotiable</h3>
+                                    <p class="insight-card-excerpt">Our data shows a 300% increase in engagement when content is in indigenous languages like Shina and Balti, proving the vital link between language and trust.</p>
+                                </div>
+                                <a href="#" class="insight-card-link">Read More &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vision" class="content-section">
+                <div class="container mx-auto max-w-4xl text-center">
+                    <div class="mb-16 section-header reveal-up">
+                        <h2 class="section-title">Charting Our Future</h2>
+                        <p class="section-body max-w-3xl mx-auto">Our five-year vision is to scale our impact, offering an opportunity for partners to co-create a digitally resilient future for Pakistan and beyond.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-x-12 gap-y-16 text-left">
+                        <div class="reveal-up">
+                            <p class="vision-counter-number" id="user-counter">0</p>
+                            <h3 class="vision-title">Empowered Users</h3>
+                            <p class="vision-body">Leveraging our established educational networks and community structures for organic, sustainable growth across Pakistan.</p>
+                        </div>
+                        <div class="reveal-up">
+                            <p class="vision-counter-number" id="platform-counter">0+</p>
+                            <h3 class="vision-title">Platform Evolutions</h3>
+                            <p class="vision-body">Introducing AI-driven learning paths, enhanced offline capabilities, and expanded indigenous language support.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="values" class="content-section">
+                <div class="container mx-auto max-w-5xl">
+                    <div class="text-center mb-20 section-header reveal-up">
+                        <h2 class="section-title">Our Guiding Principles</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+                        <div class="value-container reveal-up">
+                            <div class="value-icon-wrapper">
+                                <svg class="value-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857m0 0a3.004 3.004 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            </div>
+                            <h3 class="value-title">Collaboration</h3>
+                            <p class="value-body">We build partnerships with local leaders, researchers, students and community members to create a holistic approach to combating misinformation.</p>
+                        </div>
+                        <div class="value-container reveal-up">
+                            <div class="value-icon-wrapper">
+                                <svg class="value-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h3 class="value-title">Integrity</h3>
+                            <p class="value-body">We uphold the highest standards of accuracy and reliability, ensuring users receive trustworthy information.</p>
+                        </div>
+                        <div class="value-container reveal-up">
+                            <div class="value-icon-wrapper">
+                                <svg class="value-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </div>
+                            <h3 class="value-title">Inclusivity</h3>
+                            <p class="value-body">We embrace diversity by providing resources in multiple languages, ensuring everyone has access to digital literacy education.</p>
+                        </div>
+                        <div class="value-container reveal-up">
+                            <div class="value-icon-wrapper">
+                                <svg class="value-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 11-7.072 0 .548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                            </div>
+                            <h3 class="value-title">Innovation</h3>
+                            <p class="value-body">We leverage cutting-edge technologies like AI to continuously enhance our educational offerings and user experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="connect" class="content-section">
+                <div class="container mx-auto space-y-24">
+                    <div class="text-center max-w-3xl mx-auto section-header reveal-up">
+                        <h2 class="section-title">Join The Movement</h2>
+                        <p class="section-body">Whether you are a community leader, a potential partner, or a researcher, there is a role for you. Let's connect and become a part of the solution together.</p>
+                    </div>
                     
-                    <div class="navbar-menu_grid">
-                        <nav role="navigation" class="nav_list w-nav-menu">
-                            <a href="#about" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">About</div>
-                            </a>
-                            <div data-hover="true" data-delay="0" class="nav-dropdown w-dropdown">
-                                <div class="nav-dropdown_toggle w-dropdown-toggle">
-                                    <div class="nav-link_text text-style-allcaps text-size-tiny">Services</div>
-                                </div>
-                                <nav class="nav-dropdown_list w-dropdown-list">
-                                    <div class="nav-dropdown_content-wrapper">
-                                        <div class="nav-dropdown_left-wrapper">
-                                            <div class="nav-dropdown_left-content">
-                                                <h4 class="heading-style-h4 is-dropdown_nav" style="color:var(--color-accent-gold);">Digital Guidance</h4>
-                                                <div class="text-size-regular" style="color:var(--color-text);">
-                                                    Your path to clarity in the digital realm.
-                                                </div>
-                                                <a href="/expertise" class="button-secondary is-brand" style="background-color:var(--color-accent-teal);">
-                                                    <div class="text-weight-bold text-size-tiny" style="color:var(--color-light);">Explore All Services</div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                            <a href="#manifesto" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Manifesto</div>
-                            </a>
-                            <a href="#contact" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Contact</div>
-                            </a>
-                        </nav>
-                        
-                        <div class="navbar_menu_right">
-                            <a href="#contact" class="nav_contact-wrapper w-inline-block">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-primary);">Connect Now</div>
-                            </a>
+                    <div class="max-w-2xl mx-auto reveal-up">
+                        <h3 class="section-subtitle text-center">Chat with MehfoozBot</h3>
+                        <div class="chat-widget">
+                            <div id="chat-log" class="chat-log"></div>
+                            <div class="chat-prompt-buttons" id="prompt-buttons"></div>
+                            <form id="chat-form" class="chat-form">
+                                <input type="text" id="chat-input" placeholder="Ask a friendly question..." class="form-input" autocomplete="off">
+                                <button type="submit" class="btn btn-primary chat-send-btn">
+                                    <span class="sr-only">Send</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path d="M3.105 3.105a.5.5 0 01.707 0L19.5 18.793a.5.5 0 01-.707.707L3.105 3.812a.5.5 0 010-.707z" /><path d="M3.105 16.895a.5.5 0 010-.707l15.687-15.687a.5.5 0 01.707.707L3.812 16.895a.5.5 0 01-.707 0z" /></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="max-w-xl mx-auto reveal-up">
+                        <h3 class="section-subtitle text-center">Send a Personal Message</h3>
+                        <form id="contact-form" class="space-y-6 text-left" action="https://formspree.io/f/xnngrpzb" method="POST">
+                            <div> <label for="contact-name" class="form-label">Your Name</label> <input type="text" name="name" id="contact-name" required class="form-input"> </div>
+                            <div> <label for="contact-email" class="form-label">Your Email</label> <input type="email" name="email" id="contact-email" required class="form-input"> </div>
+                            <div> <label for="contact-interest" class="form-label">I am a...</label> <select name="interest" id="contact-interest" class="form-input"> <option>Community Member</option> <option>Potential Partner / Investor</option> <option>Researcher / Institution</option> <option>Student</option> </select> </div>
+                            <div> <label for="contact-message" class="form-label">Your Message</label> <textarea name="message" id="contact-message" rows="5" required class="form-input"></textarea> </div>
+                            <button type="submit" class="btn btn-primary w-full">Send</button>
+                        </form>
+                        <div id="form-success" class="form-success-message hidden">
+                            <h3 class="form-success-title">Thank You!</h3>
+                            <p>Your message has been received. We'll be in touch soon.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="site-wrapper">
+            </section>
+        </main>
         
-        <section class="section is-hero padding-none" id="home" style="background-color: transparent;">
-            <div class="scroll_horizontal_contain u-container">
-                
-                <div class="scroll_horizontal_hero_wrap">
-                    <div class="home-hero_heading-wrapper">
-                        <h1 class="heading-style-h1" style="color:var(--color-text);">
-                            Illuminating the Path <span class="heading-span">to Digital Clarity</span>
-                        </h1>
-                    </div>
-                </div>
-
-                <div class="scroll_horizontal_hero_wrap">
-                    <div class="home-hero_subtitle-wrapper">
-                        <div class="text-size-medium is-home-hero" style="color:var(--color-text);">
-                            We provide the wisdom and tools necessary for navigating the complexities of modern technology and information overload.
-                        </div>
-                        <a href="#services" class="button-secondary is-lightblue w-inline-block">
-                            <div class="text-weight-bold text-size-tiny">Our Mission</div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="scroll_horizontal_hero_wrap">
-                    <div class="home-hero_subtitle-wrapper">
-                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
-                            Conscious Consumption
-                        </h2>
-                        <div class="text-size-regular" style="color:var(--color-text);">
-                            Strategies for intentional, mindful engagement with technology.
-                        </div>
-                        <a href="#services" class="button-secondary is-lightblue w-inline-block">
-                            <div class="text-weight-bold text-size-tiny">Learn More</div>
-                        </a>
-                    </div>
-                </div>
-                        
-                <div class="scroll_horizontal-shapes-wrapper">
-                    <div class="circle-shape_white is-two" style="background-color:var(--color-accent-teal);"></div>
-                    <div class="circle-shape_white is-three" style="background-color:var(--color-accent-gold);"></div>
-                </div>
-
-            </div>
-            <div class="home-hero_mobile" style="background-color: transparent;">
-                <div class="home-hero_mobile-component">
-                    <h1 class="heading-style-h1" style="color:var(--color-text);">
-                        Digital <span class="text-span">Enlightenment</span>
-                    </h1>
-                    <div class="text-size-medium is-home-hero" style="color:var(--color-text);">
-                        We illuminate the path to clarity in the digital realm.
-                    </div>
-                    <a href="#services" class="button-secondary is-brand w-inline-block">
-                        <div class="text-weight-bold text-size-tiny">Discover Clarity</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section padding-medium" id="services" style="background-color: var(--color-primary);">
-            <div class="container">
-                <div class="home-expertise_component">
-                    <div class="home-expertise_content">
-                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
-                            Our Core Guidance
-                        </h2>
-                        <div class="text-size-regular" style="color:var(--color-text);">
-                            Bespoke services centered on ethical technology, data sovereignty, and intentional living in a connected world.
-                        </div>
-                        <a href="#contact" class="button-secondary is-brand w-inline-block">
-                            <div class="text-weight-bold text-size-tiny">Start Your Journey</div>
-                        </a>
-                    </div>
-                    
-                    <div class="u-brand-2 home-expertise_card-wrapper">
-                        <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
-                            <div class="home-expertise_card-content">
-                                <h4 class="heading-style-h4 is-lightblue_underline">Ethical Architecture</h4>
-                                <div class="text-size-regular" style="color:var(--color-text);">
-                                    Designing systems that respect user privacy and promote healthy digital habits.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="u-brand-2 home-expertise_card-wrapper">
-                        <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
-                            <div class="home-expertise_card-content">
-                                <h4 class="heading-style-h4 is-lightblue_underline">Data Sovereignty</h4>
-                                <div class="text-size-regular" style="color:var(--color-text);">
-                                    Empowering individuals and businesses to control their own information flow.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section padding-medium" id="manifesto" style="background-color:var(--color-dark);">
-            <div class="container">
-                <div class="manifesto-component">
-                    <div class="manifesto-left">
-                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
-                            Our Digital Enlightenment Manifesto
-                        </h2>
-                        <div class="article_richtext">
-                            <p style="color:var(--color-text);">
-                                Our philosophy, rooted in 'Mehfooz' (Protected/Secure), is to bring conscious intention to the digital world. We believe technology should serve humanity, not the reverse. 
-                            </p>
-                            <h3 style="color:var(--color-accent-teal);">1. The Principle of Intent</h3>
-                            <p style="color:var(--color-medium);">
-                                Every piece of technology and information we interact with must be approached with mindfulness.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="manifesto-right">
-                        <div class="manifesto-right_content">
-                            <div class="heading-style-h4 text-color_secondary">
-                                "The fastest route is rarely the most enlightened."
-                            </div>
-                            <a href="#" class="button-secondary is-contact w-inline-block">
-                                <div class="text-weight-bold text-size-tiny">Read the Full Manifesto</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section padding-medium" id="contact" style="background-color: var(--color-primary);">
-            <div class="container">
-                <div class="contact-component">
-                    <div class="contact-heading">
-                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
-                            Connect for Clarity
-                        </h2>
-                        <div class="text-size-regular" style="color:var(--color-text);">
-                            Ready to embrace Digital Enlightenment? Contact us to discuss your path.
-                        </div>
-                    </div>
-                    <div class="contact-form_cta-wrapper">
-                        <div class="contact_form-block">
-                            <div class="contact_form w-form">
-                                <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" class="form_form">
-                                    <div class="contact_form-row">
-                                        <div class="form_field-wrapper">
-                                            <input class="form_field-input" maxlength="256" name="Name" data-name="Name" placeholder="Your Name" type="text" id="Name">
-                                        </div>
-                                        <div class="form_field-wrapper">
-                                            <input class="form_field-input is-email" maxlength="256" name="Email" data-name="Email" placeholder="Work Email" type="email" id="Email" required="">
-                                        </div>
-                                    </div>
-                                    <div class="form_field-wrapper">
-                                        <textarea id="Message" name="Message" maxlength="5000" data-name="Message" placeholder="Your Message" class="form_field-input is-text" required=""></textarea>
-                                    </div>
-                                    <button type="submit" data-wait="Please wait..." class="button-secondary is-brand w-button">
-                                        <div class="text-weight-bold text-size-tiny">Send Message</div>
-                                    </button>
-                                </form>
-                                <div class="form_message-success w-form-done"><div>Thank you!</div></div>
-                                <div class="form_message-error w-form-fail"><div>Oops! Something went wrong.</div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <footer class="footer" style="background-color: var(--color-primary);">
-            <div class="container">
-                <div class="footer-top">
-                    <div class="footer-top_content">
-                        <div class="heading-style-h3" style="color:var(--color-accent-gold);">
-                            Mehfooz
-                        </div>
-                        <div class="footer-top_links">
-                            <div class="footer-links_grid w-col-container">
-                                <a href="#about" class="footer-link">
-                                    <div class="footer-link_text" style="color:var(--color-text);">About Us</div>
-                                </a>
-                                <a href="#services" class="footer-link">
-                                    <div class="footer-link_text" style="color:var(--color-text);">Services</div>
-                                </a>
-                                <a href="#manifesto" class="footer-link">
-                                    <div class="footer-link_text" style="color:var(--color-text);">Manifesto</div>
-                                </a>
-                                <a href="#contact" class="footer-link">
-                                    <div class="footer-link_text" style="color:var(--color-text);">Contact</div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-line"></div>
-                <div class="footer-bottom">
-                    <div class="footer-bottom_grid">
-                        <div class="footer-bottom_component">
-                            <div class="text-size-tiny text-style-allcaps" style="color:var(--color-medium);">
-                                &copy; <span class="current-year">2025</span> Mehfooz.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <footer id="site-footer" class="site-footer">
+            <div class="container mx-auto px-6 text-center">
+                <p>&copy; 2025 Mehfooz. A digital sanctuary for all.</p>
             </div>
         </footer>
     </div>
+
+    <div class="chat-bubble" id="chatBubble" title="Chat with MehfoozBot"> <div class="chat-bubble-icon">💬</div> </div>
+
+    <div class="accessibility-controls">
+        <button id="settings-toggle-btn" class="settings-btn" aria-label="Open settings" aria-controls="settings-modal" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.26.96c-1.29-.58-2.53.48-2.26 1.9c.09.48-.1.98-.48 1.35c-1.19.95-1.19 2.7.01 3.65c.38.37.58.87.48 1.35c-.27 1.42 1.01 2.48 2.26 1.9c.48-.22.99-.22 1.47 0c1.25.58 2.53-.48 2.26-1.9c-.09-.48.1-.98.48-1.35c1.19-.95 1.19-2.7-.01-3.65c-.38-.37-.58-.87-.48-1.35c.27-1.42-1.01-2.48-2.26-1.9a1.532 1.532 0 01-2.26-.96zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
+        </button>
+        <button id="help-toggle-btn" class="settings-btn" aria-label="Show keyboard shortcuts" aria-controls="keyboard-help" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.06-1.061 3.5 3.5 0 014.668 4.668l-1.06 1.06a.75.75 0 01-1.06-1.06l1.06-1.06a1.99 1.99 0 00-2.828-2.828l-1.78 1.78zM9 13a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
+        </button>
+    </div>
+
+    <div id="settings-modal" class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+        <div class="settings-modal-content">
+            <h3 id="settings-title" class="settings-title">Settings</h3>
+            <div class="setting-item">
+                <label for="motion-toggle" class="setting-label">Enable Ambient Motion</label>
+                <input type="checkbox" id="motion-toggle" class="toggle-switch" role="switch">
+            </div>
+            <div class="setting-item">
+                <label for="sound-toggle" class="setting-label">Enable Ambient Sound</label>
+                <input type="checkbox" id="sound-toggle" class="toggle-switch" role="switch" disabled>
+                <span class="setting-note">(Ambient sound not yet implemented)</span>
+            </div>
+            <button id="settings-close-btn" class="btn btn-secondary" aria-label="Close settings">Close</button>
+        </div>
+    </div>
+
+    <div id="keyboard-help" class="keyboard-help-overlay" role="tooltip" hidden>
+        <h4 class="keyboard-help-title">Keyboard Shortcuts</h4>
+        <ul class="keyboard-help-list">
+            <li><kbd>H</kbd><span>Go to Home</span></li>
+            <li><kbd>M</kbd><span>Open MehfoozBot</span></li>
+            <li><kbd>S</kbd><span>Skip Intro / Content</span></li>
+            <li><kbd>?</kbd><span>Toggle Help</span></li>
+            <li><kbd>Esc</kbd><span>Close Modals</span></li>
+        </ul>
+    </div>
+
+    <div id="bot-modal" class="bot-modal" role="dialog" aria-modal="true" aria-labelledby="bot-modal-title" hidden>
+        <div class="bot-modal-content">
+            <button id="close-bot-demo" class="modal-close-btn" aria-label="Close chat demo">&times;</button>
+            <h3 id="bot-modal-title" class="bot-modal-title">Chat with MehfoozBot</h3>
+            <p class="bot-modal-subtitle">A simulated demo.</p>
+            <div id="modal-chat-log" class="chat-log modal-chat-log"></div>
+            <div id="modal-question-pills" class="chat-prompt-buttons modal-pills"></div>
+            <form id="modal-chat-form" class="chat-form">
+                <input type="text" id="modal-chat-input" placeholder="Type your question..." autocomplete="off" class="form-input">
+                <button type="submit" class="btn btn-primary chat-send-btn">
+                    <span class="sr-only">Send</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path d="M3.105 3.105a.5.5 0 01.707 0L19.5 18.793a.5.5 0 01-.707.707L3.105 3.812a.5.5 0 010-.707z" /><path d="M3.105 16.895a.5.5 0 010-.707l15.687-15.687a.5.5 0 01.707.707L3.812 16.895a.5.5 0 01-.707 0z" /></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-backdrop" class="modal-backdrop" hidden></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js"></script>
     
-    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=634628f240578832a537f1fa" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetzlnag4=" crossorigin="anonymous"></script>
-    <script src="https://assets.slater.app/slater/15889/42698.js?v=266536" type="text/javascript"></script>
-    
-    <script>
-        // Store element references
-        const els = {
-            cosmicBg: document.getElementById('cosmic-bg'),
-            loadingScreen: document.getElementById('loading-screen'),
-        };
-
-        let cosmicBgAnimator = null;
-        let isIntroComplete = false;
-
-        // --- 1. Cosmic Background / Particle Effect (using Three.js) ---
-        function initCosmicBackground() {
-            if (!els.cosmicBg) return;
-
-            let scene, camera, renderer, particles, particleCount = 2000;
-            const particleGeometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            
-            // Use Gold color for the particles
-            const particleMaterial = new THREE.PointsMaterial({
-                color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-accent-gold')),
-                size: 0.8,
-                blending: THREE.AdditiveBlending,
-                transparent: true,
-                opacity: 0.7,
-                sizeAttenuation: true
-            });
-
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-            camera.position.z = 500;
-
-            for (let i = 0; i < particleCount * 3; i += 3) {
-                positions[i] = (Math.random() - 0.5) * 2000;
-                positions[i + 1] = (Math.random() - 0.5) * 2000;
-                positions[i + 2] = (Math.random() - 0.5) * 2000;
-            }
-            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particles = new THREE.Points(particleGeometry, particleMaterial);
-            scene.add(particles);
-
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            els.cosmicBg.appendChild(renderer.domElement);
-
-            function animate() {
-                if (!isIntroComplete) {
-                   requestAnimationFrame(animate); 
-                   return;
-                }
-
-                requestAnimationFrame(animate);
-
-                // Simple rotation and movement for effect
-                particles.rotation.z += 0.0005;
-                particles.rotation.x += 0.0002;
-                particles.rotation.y += 0.0001;
-
-                renderer.render(scene, camera);
-            }
-
-            function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-
-            window.addEventListener('resize', onWindowResize, false);
-            
-            // Start animation immediately
-            animate();
-        }
-
-        // --- 2. Intro Sequence / Hide Loader ---
-        function initIntroSequence() {
-            // Simulate a brief loading time (2 seconds)
-            setTimeout(() => {
-                isIntroComplete = true;
-                if (els.loadingScreen) {
-                    els.loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        els.loadingScreen.style.display = 'none';
-                    }, 1000); // 1s to allow CSS fade
-                }
-            }, 2000);
-        }
-
-        // --- 3. Keyboard Shortcuts (DYNAMIC ELEMENT) ---
-        function initKeyboardShortcuts() {
-            document.addEventListener('keydown', (e) => {
-                // Ignore shortcuts if input is active
-                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return; 
-
-                if (e.key.toLowerCase() === 'h') { 
-                    e.preventDefault(); 
-                    document.querySelector('a[href="#home"]')?.click(); 
-                } 
-                if (e.key.toLowerCase() === 'm') { 
-                    e.preventDefault(); 
-                    document.querySelector('a[href="#manifesto"]')?.click(); 
-                }
-                if (e.key.toLowerCase() === 'c') { 
-                    e.preventDefault(); 
-                    document.querySelector('a[href="#contact"]')?.click(); 
-                }
-            });
-        }
-
-
-        // --- Initialize Everything ---
-        document.addEventListener('DOMContentLoaded', () => {
-            initCosmicBackground();
-            initIntroSequence();
-            initKeyboardShortcuts();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
