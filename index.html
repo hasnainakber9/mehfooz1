@@ -5,26 +5,32 @@
     <title>Mehfooz | Digital Enlightenment</title>
     <meta content="Digital Enlightenment for the modern age. Guiding your journey with wisdom and clarity." name="description">
     <meta content="Mehfooz | Digital Enlightenment" property="og:title">
-    <meta content="Digital Enlightenment for the modern age. Guiding your journey with wisdom and clarity." property="og:description">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="data:text/css;charset=utf-8;base64,..."> 
     <style>
+        /*
+         * ====================================================================
+         * >>> PASTE THE FULL MINIFIED HUB CYCLE <style> BLOCK HERE <<<
+         * ====================================================================
+         */
+
+        /* --- Mehfooz Root Variables (MUST be placed AFTER Hubcycle CSS to override defaults) --- */
         :root {
-            /* Mehfooz Colors (Primary Color Palette) */
+            /* Mehfooz Colors (v4 Palette from index (5).html) */
             --color-primary: #1A120B; /* Dark Background */
             --color-text: #EAE0D5;    /* Light Text */
             --color-accent-gold: #DAA520; /* Gold Accent */
             --color-accent-teal: #008080; /* Teal Secondary Accent */
             --color-dark: #0D0907;
             --color-light: #F5F0E8;
+            --color-medium: #A8A29A;
             
             /* Hubcycle Variable Mapping to Mehfooz Theme */
-            /* This ensures Hubcycle's default components use the Mehfooz colors */
+            /* These overrides ensure Hubcycle's layout components use the Mehfooz colors */
             --_colorbrands---bg: var(--color-primary);
             --_colorbrands---text: var(--color-text);
             --_colorbrands---heading: var(--color-accent-gold);
@@ -39,27 +45,40 @@
             --fontweight--xregular: 500;
         }
 
-        /* --- Hubcycle's large inline CSS block is omitted here for brevity --- */
-        /* --- In a live environment, this is where Hubcycle's massive inline <style> block goes. --- */
-        /* --- By placing the Mehfooz variables first, they govern the Hubcycle layout colors. --- */
+        /* --- Custom Mehfooz Overrides (For specific elements) --- */
+        body {
+            background-color: var(--color-primary);
+            color: var(--color-text);
+        }
+        
+        /* Ensure all text uses the new primary text color unless specified otherwise */
+        .text-color_light-blue, .text-color_white { 
+            color: var(--color-text) !important; 
+        }
+
+        /* Customize the navbar background for the dark theme */
+        .navbar-fixed {
+            background-color: var(--color-primary);
+        }
+
+        /* Custom style for the contact button background */
+        .nav_contact-wrapper {
+            background-color: var(--color-accent-gold) !important;
+        }
+        .nav_contact-wrapper div {
+            color: var(--color-primary) !important;
+        }
+        
     </style>
     
     </head>
-<body class="is-homepage">
-    <div class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-logo">Mehfooz</div>
-            <div class="loading-particles">
-                </div>
-            </div>
-    </div>
-    
+<body class="is-homepage" style="background-color: var(--color-primary);">
     <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-fixed w-nav">
         <div class="navbar-main">
             <div class="container is-nav">
                 <div class="navbar-wrapper">
                     <a href="#home" aria-current="page" class="link_site-brand w-nav-brand w--current">
-                        <div class="text-color-coral heading-style-h4" style="color:var(--color-accent-gold);">
+                        <div class="heading-style-h4" style="color:var(--color-accent-gold);">
                             Mehfooz
                         </div>
                     </a>
@@ -67,22 +86,22 @@
                     <div class="navbar-menu_grid">
                         <nav role="navigation" class="nav_list w-nav-menu">
                             <a href="#about" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">About</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">About</div>
                             </a>
                             <div data-hover="true" data-delay="0" class="nav-dropdown w-dropdown">
                                 <div class="nav-dropdown_toggle w-dropdown-toggle">
-                                    <div class="nav-link_text text-style-allcaps text-size-tiny">Services</div>
+                                    <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Services</div>
                                 </div>
                                 <nav class="nav-dropdown_list w-dropdown-list">
                                     <div class="nav-dropdown_content-wrapper">
                                         <div class="nav-dropdown_left-wrapper">
                                             <div class="nav-dropdown_left-content">
                                                 <h4 class="heading-style-h4 is-dropdown_nav" style="color:var(--color-accent-gold);">Digital Guidance</h4>
-                                                <div class="text-size-regular text-color_white">
-                                                    Your path to clarity in the digital realm. We illuminate solutions.
+                                                <div class="text-size-regular" style="color:var(--color-text);">
+                                                    Your path to clarity in the digital realm.
                                                 </div>
-                                                <a href="/expertise" class="button-secondary is-brand">
-                                                    <div class="text-weight-bold text-size-tiny" style="color:var(--color-primary);">Explore All Services</div>
+                                                <a href="/expertise" class="button-secondary is-brand" style="background-color:var(--color-accent-teal);">
+                                                    <div class="text-weight-bold text-size-tiny" style="color:var(--color-light);">Explore All Services</div>
                                                 </a>
                                             </div>
                                         </div>
@@ -90,19 +109,16 @@
                                 </nav>
                             </div>
                             <a href="#manifesto" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Manifesto</div>
-                            </a>
-                            <a href="#team" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Our Team</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Manifesto</div>
                             </a>
                             <a href="#contact" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Contact</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Contact</div>
                             </a>
                         </nav>
                         
                         <div class="navbar_menu_right">
-                            <a href="#contact" class="nav_contact-wrapper w-inline-block" style="background-color:var(--color-accent-gold);">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-primary);">Connect Now</div>
+                            <a href="#contact" class="nav_contact-wrapper w-inline-block">
+                                <div class="nav-link_text text-style-allcaps text-size-tiny">Connect Now</div>
                                 </a>
                         </div>
                     </div>
@@ -113,14 +129,14 @@
 
     <div id="site-wrapper" data-scroll-container>
         
-        <section class="section is-hero padding-none" id="home">
+        <section class="section is-hero padding-none" id="home" style="background-color: var(--color-primary);">
             <div class="scroll_horizontal_contain u-container">
                 <div class="scroll_horizontal_inner">
                     <div class="scroll_horizontal_track">
                         
                         <div class="scroll_horizontal_hero_wrap">
                             <div class="home-hero_heading-wrapper">
-                                <h1 class="heading-style-h1 text-color_light-blue" style="color:var(--color-text);">
+                                <h1 class="heading-style-h1" style="color:var(--color-text);">
                                     Illuminating the Path <span class="heading-span" style="color:var(--color-accent-gold);">to Digital Clarity</span>
                                 </h1>
                             </div>
@@ -139,11 +155,11 @@
 
                         <div class="scroll_horizontal_hero_wrap">
                             <div class="home-hero_subtitle-wrapper">
-                                <h2 class="heading-style-h2 text-color_white" style="color:var(--color-accent-gold);">
+                                <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
                                     Conscious Consumption
                                 </h2>
-                                <div class="text-size-regular text-color_white">
-                                    Tools and strategies for intentional, mindful engagement with technology, reducing digital fatigue.
+                                <div class="text-size-regular" style="color:var(--color-text);">
+                                    Strategies for intentional, mindful engagement with technology.
                                 </div>
                                 <a href="#services" class="button-secondary is-lightblue w-inline-block" style="background-color:var(--color-accent-teal);">
                                     <div class="text-weight-bold text-size-tiny" style="color:var(--color-light);">Learn More</div>
@@ -151,19 +167,19 @@
                             </div>
                         </div>
                         
-                        </div>
+                    </div>
                 </div>
                 <div class="scroll_horizontal-shapes-wrapper">
                     <div class="circle-shape_white is-two" style="background-color:var(--color-accent-teal);"></div>
                     <div class="circle-shape_white is-three" style="background-color:var(--color-accent-gold);"></div>
                 </div>
             </div>
-            <div class="home-hero_mobile">
+            <div class="home-hero_mobile" style="background-color: var(--color-primary);">
                 <div class="home-hero_mobile-component">
-                    <h1 class="heading-style-h1 text-color_light-blue" style="color:var(--color-text);">
+                    <h1 class="heading-style-h1" style="color:var(--color-text);">
                         Digital <span class="text-span" style="color:var(--color-accent-gold);">Enlightenment</span>
                     </h1>
-                    <div class="text-size-medium is-home-hero">
+                    <div class="text-size-medium is-home-hero" style="color:var(--color-text);">
                         We illuminate the path to clarity in the digital realm.
                     </div>
                     <a href="#services" class="button-secondary is-brand w-inline-block" style="background-color:var(--color-accent-gold);">
@@ -173,15 +189,15 @@
             </div>
         </section>
 
-        <section class="section padding-medium" id="services">
+        <section class="section padding-medium" id="services" style="background-color: var(--color-primary);">
             <div class="container">
                 <div class="home-expertise_component">
                     <div class="home-expertise_content">
-                        <h2 class="heading-style-h2 text-color_white" style="color:var(--color-accent-gold);">
+                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
                             Our Core Guidance
                         </h2>
-                        <div class="text-size-regular text-color_white">
-                            We offer bespoke services centered on ethical technology, data sovereignty, and intentional living in a connected world.
+                        <div class="text-size-regular" style="color:var(--color-text);">
+                            Bespoke services centered on ethical technology, data sovereignty, and intentional living in a connected world.
                         </div>
                         <a href="#contact" class="button-secondary is-brand w-inline-block" style="background-color:var(--color-accent-gold);">
                             <div class="text-weight-bold text-size-tiny" style="color:var(--color-primary);">Start Your Journey</div>
@@ -192,7 +208,7 @@
                         <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
                             <div class="home-expertise_card-content">
                                 <h4 class="heading-style-h4 is-lightblue_underline" style="color:var(--color-accent-teal);">Ethical Architecture</h4>
-                                <div class="text-size-regular text-color_light-blue">
+                                <div class="text-size-regular" style="color:var(--color-text);">
                                     Designing systems that respect user privacy and promote healthy digital habits.
                                 </div>
                             </div>
@@ -203,7 +219,7 @@
                         <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
                             <div class="home-expertise_card-content">
                                 <h4 class="heading-style-h4 is-lightblue_underline" style="color:var(--color-accent-teal);">Data Sovereignty</h4>
-                                <div class="text-size-regular text-color_light-blue">
+                                <div class="text-size-regular" style="color:var(--color-text);">
                                     Empowering individuals and businesses to control their own information flow.
                                 </div>
                             </div>
@@ -217,75 +233,65 @@
             <div class="container">
                 <div class="manifesto-component">
                     <div class="manifesto-left">
-                        <h2 class="heading-style-h2 text-color_white" style="color:var(--color-accent-gold);">
+                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
                             Our Digital Enlightenment Manifesto
                         </h2>
                         <div class="article_richtext">
                             <p style="color:var(--color-text);">
-                                Our philosophy, rooted in 'Mehfooz' (Protected/Secure), is to bring conscious intention to the digital world. We believe technology should serve humanity, not the reverse. Our manifesto guides every decision we make, ensuring integrity and peace of mind for our clients.
+                                Our philosophy, rooted in 'Mehfooz' (Protected/Secure), is to bring conscious intention to the digital world. We believe technology should serve humanity, not the reverse. 
                             </p>
                             <h3 style="color:var(--color-accent-teal);">1. The Principle of Intent</h3>
                             <p style="color:var(--color-medium);">
-                                Every piece of technology and information we interact with must be approached with mindfulness. We seek to eliminate digital noise and foster clarity.
-                            </p>
-                            <h3 style="color:var(--color-accent-teal);">2. The Right to Retreat</h3>
-                            <p style="color:var(--color-medium);">
-                                We defend the right to disengage. Our solutions are designed to make disconnection as easy and guilt-free as connection.
+                                Every piece of technology and information we interact with must be approached with mindfulness.
                             </p>
                         </div>
                     </div>
                     <div class="manifesto-right" style="background-color:var(--color-accent-gold);">
                         <div class="manifesto-right_content">
-                            <div class="heading-style-h4 text-color_secondary">
+                            <div class="heading-style-h4 text-color_secondary" style="color:var(--color-primary);">
                                 "The fastest route is rarely the most enlightened."
                             </div>
                             <a href="#" class="button-secondary is-contact w-inline-block" style="background-color:var(--color-primary);">
                                 <div class="text-weight-bold text-size-tiny" style="color:var(--color-accent-gold);">Read the Full Manifesto</div>
                             </a>
                         </div>
-                        <img src="placeholder-abstract-glow.svg" loading="lazy" alt="" class="manifesto-right_img">
-                    </div>
+                        </div>
                 </div>
             </div>
         </section>
 
-        <section class="section padding-medium" id="contact">
+        <section class="section padding-medium" id="contact" style="background-color: var(--color-primary);">
             <div class="container">
                 <div class="contact-component">
                     <div class="contact-heading">
-                        <h2 class="heading-style-h2 text-color_white" style="color:var(--color-accent-gold);">
+                        <h2 class="heading-style-h2" style="color:var(--color-accent-gold);">
                             Connect for Clarity
                         </h2>
-                        <div class="text-size-regular text-color_white">
-                            Ready to embrace Digital Enlightenment? Contact us to discuss your path to mindful technology use and ethical strategy.
+                        <div class="text-size-regular" style="color:var(--color-text);">
+                            Ready to embrace Digital Enlightenment? Contact us to discuss your path.
                         </div>
                     </div>
                     <div class="contact-form_cta-wrapper" style="background-color:var(--color-accent-teal);">
-                        <img src="placeholder-contact-glow.svg" loading="lazy" alt="" class="contact-form_cta-bg">
                         <div class="contact_form-block">
                             <div class="contact_form w-form">
-                                <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" class="form_form" data-wf-page-id="688b2c775ad58814c02f2f84" data-wf-element-id="44f9f743-a616-55ce-8c5e-82194511d73a">
+                                <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" class="form_form">
                                     <div class="contact_form-row">
                                         <div class="form_field-wrapper">
-                                            <input class="form_field-input" maxlength="256" name="Name" data-name="Name" placeholder="Your Name" type="text" id="Name">
+                                            <input class="form_field-input" maxlength="256" name="Name" data-name="Name" placeholder="Your Name" type="text" id="Name" style="background-color:var(--color-light); color:var(--color-primary);">
                                         </div>
                                         <div class="form_field-wrapper">
-                                            <input class="form_field-input is-email" maxlength="256" name="Email" data-name="Email" placeholder="Work Email" type="email" id="Email" required="">
+                                            <input class="form_field-input is-email" maxlength="256" name="Email" data-name="Email" placeholder="Work Email" type="email" id="Email" required="" style="background-color:var(--color-light); color:var(--color-primary);">
                                         </div>
                                     </div>
                                     <div class="form_field-wrapper">
-                                        <textarea id="Message" name="Message" maxlength="5000" data-name="Message" placeholder="Your Message" class="form_field-input is-text" required=""></textarea>
+                                        <textarea id="Message" name="Message" maxlength="5000" data-name="Message" placeholder="Your Message" class="form_field-input is-text" required="" style="background-color:var(--color-light); color:var(--color-primary);"></textarea>
                                     </div>
                                     <button type="submit" data-wait="Please wait..." class="button-secondary is-brand w-button" style="background-color:var(--color-accent-gold); color:var(--color-primary);">
                                         <div class="text-weight-bold text-size-tiny">Send Message</div>
                                     </button>
                                 </form>
-                                <div class="form_message-success w-form-done" style="background-color:var(--color-light); color:var(--color-dark);">
-                                    <div>Thank you! Your submission has been received!</div>
-                                </div>
-                                <div class="form_message-error w-form-fail" style="background-color:var(--color-error); color:var(--color-light);">
-                                    <div>Oops! Something went wrong while submitting the form.</div>
-                                </div>
+                                <div class="form_message-success w-form-done"><div>Thank you!</div></div>
+                                <div class="form_message-error w-form-fail"><div>Oops! Something went wrong.</div></div>
                             </div>
                         </div>
                     </div>
@@ -294,29 +300,26 @@
         </section>
 
 
-        <footer class="footer">
+        <footer class="footer" style="background-color: var(--color-primary);">
             <div class="container">
                 <div class="footer-top">
                     <div class="footer-top_content">
-                        <div class="heading-style-h3 text-color_white" style="color:var(--color-accent-gold);">
+                        <div class="heading-style-h3" style="color:var(--color-accent-gold);">
                             Mehfooz
                         </div>
                         <div class="footer-top_links">
                             <div class="footer-links_grid w-col-container">
                                 <a href="#about" class="footer-link">
-                                    <div class="footer-link_text text-color_light-blue" style="color:var(--color-text);">About Us</div>
+                                    <div class="footer-link_text" style="color:var(--color-text);">About Us</div>
                                 </a>
                                 <a href="#services" class="footer-link">
-                                    <div class="footer-link_text text-color_light-blue" style="color:var(--color-text);">Services</div>
+                                    <div class="footer-link_text" style="color:var(--color-text);">Services</div>
                                 </a>
                                 <a href="#manifesto" class="footer-link">
-                                    <div class="footer-link_text text-color_light-blue" style="color:var(--color-text);">Manifesto</div>
-                                </a>
-                                <a href="#team" class="footer-link">
-                                    <div class="footer-link_text text-color_light-blue" style="color:var(--color-text);">Team</div>
+                                    <div class="footer-link_text" style="color:var(--color-text);">Manifesto</div>
                                 </a>
                                 <a href="#contact" class="footer-link">
-                                    <div class="footer-link_text text-color_light-blue" style="color:var(--color-text);">Contact</div>
+                                    <div class="footer-link_text" style="color:var(--color-text);">Contact</div>
                                 </a>
                             </div>
                         </div>
@@ -326,20 +329,8 @@
                 <div class="footer-bottom">
                     <div class="footer-bottom_grid">
                         <div class="footer-bottom_component">
-                            <div class="text-size-tiny text-color_white text-style-allcaps" style="color:var(--color-medium);">
-                                &copy; <span class="current-year">2025</span> Mehfooz. All rights reserved.
-                            </div>
-                        </div>
-                        <div class="footer-bottom_component">
-                            <div class="footer-social_grid w-col-container">
-                                <a href="#" target="_blank" class="footer-social_link w-inline-block">
-                                    <div class="footer-social_embed w-embed w-script" style="color:var(--color-accent-teal);">
-                                        </div>
-                                </a>
-                                <a href="#" target="_blank" class="footer-social_link w-inline-block">
-                                    <div class="footer-social_embed w-embed w-script" style="color:var(--color-accent-teal);">
-                                        </div>
-                                </a>
+                            <div class="text-size-tiny text-style-allcaps" style="color:var(--color-medium);">
+                                &copy; <span class="current-year">2025</span> Mehfooz.
                             </div>
                         </div>
                     </div>
@@ -348,11 +339,12 @@
         </footer>
     </div>
     
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=634628f240578832a537f1fa" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetzlnag4=" crossorigin="anonymous"></script>
     <script>
-        // Placeholder for custom interactive logic (e.g., cursor, parallax, intro game)
-        // Original logic from index (5).html: initCursor(), initIntroGame(), initSmoothScroll()
+        // Custom Mehfooz Initialization (for effects from index (5).html)
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Mehfooz Custom Scripts Initialized (Placeholder)");
+            console.log("Mehfooz Custom Scripts Initialized.");
+            // Add custom JS functions here (e.g., initCursor(), initIntroGame())
         });
     </script>
     
