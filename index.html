@@ -6,73 +6,129 @@
     <meta content="Digital Enlightenment for the modern age. Guiding your journey with wisdom and clarity." name="description">
     <meta content="Mehfooz | Digital Enlightenment" property="og:title">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
-        /*
-         * ====================================================================
-         * >>> PASTE THE FULL MINIFIED HUB CYCLE <style> BLOCK HERE <<<
-         * ====================================================================
-         */
+      @import url("https://assets.slater.app/slater/15889/43231.css?v=630500");
+      @font-face{font-family:'Ppvalve';src:url('https://assets.slater.app/slater/15889/42317.woff2?v=641249') format('woff2'),url('https://assets.slater.app/slater/15889/42317.woff?v=641249') format('woff');font-weight:700;font-style:normal;font-display:swap}
+      @font-face{font-family:'Ppvalve';src:url('https://assets.slater.app/slater/15889/42319.woff2?v=258057') format('woff2'),url('https://assets.slater.app/slater/15889/42319.woff?v=258057') format('woff');font-weight:500;font-style:normal;font-display:swap}
+      @font-face{font-family:'Ppvalve';src:url('https://assets.slater.app/slater/15889/42321.woff2?v=913105') format('woff2'),url('https://assets.slater.app/slater/15889/42321.woff?v=913105') format('woff');font-weight:400;font-style:normal;font-display:swap}
+      @font-face{font-family:'Bauer';src:url('https://assets.slater.app/slater/15889/42322.woff2?v=833139') format('woff2'),url('https://assets.slater.app/slater/15889/42322.woff?v=833139') format('woff');font-weight:700;font-style:normal;font-display:swap}
+      @font-face{font-family:'Bauer';src:url('https://assets.slater.app/slater/15889/42323.woff2?v=349641') format('woff2'),url('https://assets.slater.app/slater/15889/42323.woff?v=349641') format('woff');font-weight:400;font-style:normal;font-display:swap}
+      
+      /*
+      |==========================================================================
+      | 2. CORE MEHFOOZ VARIABLES & OVERRIDES (Customization)
+      |==========================================================================
+      | These variables and rules override the Hubcycle defaults to apply your dark theme.
+      */
+      :root {
+          /* Mehfooz Colors (Primary Color Palette) */
+          --color-primary: #1A120B;      /* Dark Background */
+          --color-text: #EAE0D5;         /* Light Text */
+          --color-accent-gold: #DAA520;  /* Gold Accent */
+          --color-accent-teal: #008080;  /* Teal Secondary Accent */
+          --color-dark: #0D0907;
+          --color-light: #F5F0E8;
+          --color-medium: #A8A29A;
+          
+          /* Mehfooz Font Overrides */
+          --font--heading: 'Cormorant Garamond', Georgia, serif;
+          --font--text: 'Nunito Sans', sans-serif;
+          --fontweight--xregular: 500;
+          
+          /* Hubcycle Variable Mapping (CRITICAL) */
+          --_colorbrands---bg: var(--color-primary);
+          --_colorbrands---text: var(--color-text);
+          --_colorbrands---heading: var(--color-accent-gold);
+          --_color-swatches---dark: var(--color-dark);
+          --_color-swatches---light-grey: var(--color-text);
+          --_color-swatches---brand: var(--color-accent-gold);
+          --_color-swatches---brand-secondary: var(--color-accent-teal);
+          --_color-swatches---lightblue: var(--color-text); /* Hubcycle light blue becomes Mehfooz light text */
+      }
 
-        /* --- Mehfooz Root Variables (MUST be placed AFTER Hubcycle CSS to override defaults) --- */
-        :root {
-            /* Mehfooz Colors (v4 Palette from index (5).html) */
-            --color-primary: #1A120B; /* Dark Background */
-            --color-text: #EAE0D5;    /* Light Text */
-            --color-accent-gold: #DAA520; /* Gold Accent */
-            --color-accent-teal: #008080; /* Teal Secondary Accent */
-            --color-dark: #0D0907;
-            --color-light: #F5F0E8;
-            --color-medium: #A8A29A;
-            
-            /* Hubcycle Variable Mapping to Mehfooz Theme */
-            /* These overrides ensure Hubcycle's layout components use the Mehfooz colors */
-            --_colorbrands---bg: var(--color-primary);
-            --_colorbrands---text: var(--color-text);
-            --_colorbrands---heading: var(--color-accent-gold);
-            --_color-swatches---dark: var(--color-dark);
-            --_color-swatches---light-grey: var(--color-text);
-            --_color-swatches---brand: var(--color-accent-gold);
-            --_color-swatches---brand-secondary: var(--color-accent-teal);
-            
-            /* Mehfooz Font Overrides */
-            --font--heading: 'Cormorant Garamond', Georgia, serif;
-            --font--text: 'Nunito Sans', sans-serif;
-            --fontweight--xregular: 500;
-        }
+      /* --- Global Body & Fonts --- */
+      body {
+          background-color: var(--color-primary);
+          color: var(--color-text);
+          font-family: var(--font--text); 
+      }
+      h1, h2, h3, h4, h5, h6, .heading-style-h1, .heading-style-h2, .heading-style-h3, .heading-style-h4 {
+          font-family: var(--font--heading);
+          color: var(--color-text); 
+      }
 
-        /* --- Custom Mehfooz Overrides (For specific elements) --- */
-        body {
-            background-color: var(--color-primary);
-            color: var(--color-text);
-        }
-        
-        /* Ensure all text uses the new primary text color unless specified otherwise */
-        .text-color_light-blue, .text-color_white { 
-            color: var(--color-text) !important; 
-        }
+      /* --- Navigation & Header --- */
+      .navbar-fixed, .navbar-main {
+          background-color: var(--color-primary);
+          border-bottom: 1px solid var(--color-dark);
+      }
+      .nav-link_text {
+          color: var(--color-text);
+      }
+      .nav_contact-wrapper {
+          background-color: var(--color-accent-gold) !important;
+      }
+      .nav_contact-wrapper div {
+          color: var(--color-primary) !important; /* Gold button, dark text */
+      }
+      
+      /* --- Text Color Overrides --- */
+      .text-color_light-blue, .text-color_white, .text-color_secondary { 
+          color: var(--color-text) !important; 
+      }
+      .heading-span, .text-color-coral, .u-brand-2 h4, .text-color_black {
+          color: var(--color-accent-gold) !important;
+      }
 
-        /* Customize the navbar background for the dark theme */
-        .navbar-fixed {
-            background-color: var(--color-primary);
-        }
+      /* --- Button Styles --- */
+      .button-secondary.is-brand {
+          background-color: var(--color-accent-gold);
+      }
+      .button-secondary.is-brand div {
+          color: var(--color-primary);
+      }
+      .button-secondary.is-lightblue, .button-secondary.is-lightblue:hover {
+          background-color: var(--color-accent-teal) !important;
+      }
+      .button-secondary.is-lightblue div {
+          color: var(--color-light);
+      }
 
-        /* Custom style for the contact button background */
-        .nav_contact-wrapper {
-            background-color: var(--color-accent-gold) !important;
-        }
-        .nav_contact-wrapper div {
-            color: var(--color-primary) !important;
-        }
-        
+      /* --- Form & Contact Section --- */
+      .form_field-input {
+          background-color: var(--color-light) !important;
+          border: 1px solid var(--color-accent-teal) !important;
+          color: var(--color-primary) !important; 
+      }
+      .contact-form_cta-wrapper {
+          background-color: var(--color-accent-teal) !important;
+      }
+
+      /* --- Manifesto & Footer --- */
+      .footer-line {
+          background-color: var(--color-accent-gold) !important;
+      }
+      .manifesto-right {
+          background-color: var(--color-accent-gold) !important;
+      }
+      .manifesto-right_content .heading-style-h4 {
+          color: var(--color-primary) !important;
+      }
+      .manifesto-right .button-secondary.is-contact {
+          background-color: var(--color-primary) !important;
+      }
+      .manifesto-right .button-secondary.is-contact div {
+          color: var(--color-accent-gold) !important;
+      }
     </style>
-    
-    </head>
+</head>
 <body class="is-homepage" style="background-color: var(--color-primary);">
+
     <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-fixed w-nav">
         <div class="navbar-main">
             <div class="container is-nav">
@@ -86,11 +142,11 @@
                     <div class="navbar-menu_grid">
                         <nav role="navigation" class="nav_list w-nav-menu">
                             <a href="#about" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">About</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny">About</div>
                             </a>
                             <div data-hover="true" data-delay="0" class="nav-dropdown w-dropdown">
                                 <div class="nav-dropdown_toggle w-dropdown-toggle">
-                                    <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Services</div>
+                                    <div class="nav-link_text text-style-allcaps text-size-tiny">Services</div>
                                 </div>
                                 <nav class="nav-dropdown_list w-dropdown-list">
                                     <div class="nav-dropdown_content-wrapper">
@@ -109,17 +165,17 @@
                                 </nav>
                             </div>
                             <a href="#manifesto" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Manifesto</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny">Manifesto</div>
                             </a>
                             <a href="#contact" class="nav-link w-nav-link">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-text);">Contact</div>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny">Contact</div>
                             </a>
                         </nav>
                         
                         <div class="navbar_menu_right">
                             <a href="#contact" class="nav_contact-wrapper w-inline-block">
-                                <div class="nav-link_text text-style-allcaps text-size-tiny">Connect Now</div>
-                                </a>
+                                <div class="nav-link_text text-style-allcaps text-size-tiny" style="color:var(--color-primary);">Connect Now</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -137,7 +193,7 @@
                         <div class="scroll_horizontal_hero_wrap">
                             <div class="home-hero_heading-wrapper">
                                 <h1 class="heading-style-h1" style="color:var(--color-text);">
-                                    Illuminating the Path <span class="heading-span" style="color:var(--color-accent-gold);">to Digital Clarity</span>
+                                    Illuminating the Path <span class="heading-span">to Digital Clarity</span>
                                 </h1>
                             </div>
                         </div>
@@ -147,8 +203,8 @@
                                 <div class="text-size-medium is-home-hero" style="color:var(--color-text);">
                                     We provide the wisdom and tools necessary for navigating the complexities of modern technology and information overload.
                                 </div>
-                                <a href="#services" class="button-secondary is-lightblue w-inline-block" style="background-color:var(--color-accent-teal);">
-                                    <div class="text-weight-bold text-size-tiny" style="color:var(--color-light);">Our Mission</div>
+                                <a href="#services" class="button-secondary is-lightblue w-inline-block">
+                                    <div class="text-weight-bold text-size-tiny">Our Mission</div>
                                 </a>
                             </div>
                         </div>
@@ -161,8 +217,8 @@
                                 <div class="text-size-regular" style="color:var(--color-text);">
                                     Strategies for intentional, mindful engagement with technology.
                                 </div>
-                                <a href="#services" class="button-secondary is-lightblue w-inline-block" style="background-color:var(--color-accent-teal);">
-                                    <div class="text-weight-bold text-size-tiny" style="color:var(--color-light);">Learn More</div>
+                                <a href="#services" class="button-secondary is-lightblue w-inline-block">
+                                    <div class="text-weight-bold text-size-tiny">Learn More</div>
                                 </a>
                             </div>
                         </div>
@@ -177,13 +233,13 @@
             <div class="home-hero_mobile" style="background-color: var(--color-primary);">
                 <div class="home-hero_mobile-component">
                     <h1 class="heading-style-h1" style="color:var(--color-text);">
-                        Digital <span class="text-span" style="color:var(--color-accent-gold);">Enlightenment</span>
+                        Digital <span class="text-span">Enlightenment</span>
                     </h1>
                     <div class="text-size-medium is-home-hero" style="color:var(--color-text);">
                         We illuminate the path to clarity in the digital realm.
                     </div>
-                    <a href="#services" class="button-secondary is-brand w-inline-block" style="background-color:var(--color-accent-gold);">
-                        <div class="text-weight-bold text-size-tiny" style="color:var(--color-primary);">Discover Clarity</div>
+                    <a href="#services" class="button-secondary is-brand w-inline-block">
+                        <div class="text-weight-bold text-size-tiny">Discover Clarity</div>
                     </a>
                 </div>
             </div>
@@ -199,15 +255,15 @@
                         <div class="text-size-regular" style="color:var(--color-text);">
                             Bespoke services centered on ethical technology, data sovereignty, and intentional living in a connected world.
                         </div>
-                        <a href="#contact" class="button-secondary is-brand w-inline-block" style="background-color:var(--color-accent-gold);">
-                            <div class="text-weight-bold text-size-tiny" style="color:var(--color-primary);">Start Your Journey</div>
+                        <a href="#contact" class="button-secondary is-brand w-inline-block">
+                            <div class="text-weight-bold text-size-tiny">Start Your Journey</div>
                         </a>
                     </div>
                     
                     <div class="u-brand-2 home-expertise_card-wrapper">
                         <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
                             <div class="home-expertise_card-content">
-                                <h4 class="heading-style-h4 is-lightblue_underline" style="color:var(--color-accent-teal);">Ethical Architecture</h4>
+                                <h4 class="heading-style-h4 is-lightblue_underline">Ethical Architecture</h4>
                                 <div class="text-size-regular" style="color:var(--color-text);">
                                     Designing systems that respect user privacy and promote healthy digital habits.
                                 </div>
@@ -218,7 +274,7 @@
                     <div class="u-brand-2 home-expertise_card-wrapper">
                         <div class="home-expertise_card-inner" style="background-color:var(--color-dark);">
                             <div class="home-expertise_card-content">
-                                <h4 class="heading-style-h4 is-lightblue_underline" style="color:var(--color-accent-teal);">Data Sovereignty</h4>
+                                <h4 class="heading-style-h4 is-lightblue_underline">Data Sovereignty</h4>
                                 <div class="text-size-regular" style="color:var(--color-text);">
                                     Empowering individuals and businesses to control their own information flow.
                                 </div>
@@ -246,16 +302,16 @@
                             </p>
                         </div>
                     </div>
-                    <div class="manifesto-right" style="background-color:var(--color-accent-gold);">
+                    <div class="manifesto-right">
                         <div class="manifesto-right_content">
-                            <div class="heading-style-h4 text-color_secondary" style="color:var(--color-primary);">
+                            <div class="heading-style-h4 text-color_secondary">
                                 "The fastest route is rarely the most enlightened."
                             </div>
-                            <a href="#" class="button-secondary is-contact w-inline-block" style="background-color:var(--color-primary);">
-                                <div class="text-weight-bold text-size-tiny" style="color:var(--color-accent-gold);">Read the Full Manifesto</div>
+                            <a href="#" class="button-secondary is-contact w-inline-block">
+                                <div class="text-weight-bold text-size-tiny">Read the Full Manifesto</div>
                             </a>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -271,22 +327,22 @@
                             Ready to embrace Digital Enlightenment? Contact us to discuss your path.
                         </div>
                     </div>
-                    <div class="contact-form_cta-wrapper" style="background-color:var(--color-accent-teal);">
+                    <div class="contact-form_cta-wrapper">
                         <div class="contact_form-block">
                             <div class="contact_form w-form">
                                 <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" class="form_form">
                                     <div class="contact_form-row">
                                         <div class="form_field-wrapper">
-                                            <input class="form_field-input" maxlength="256" name="Name" data-name="Name" placeholder="Your Name" type="text" id="Name" style="background-color:var(--color-light); color:var(--color-primary);">
+                                            <input class="form_field-input" maxlength="256" name="Name" data-name="Name" placeholder="Your Name" type="text" id="Name">
                                         </div>
                                         <div class="form_field-wrapper">
-                                            <input class="form_field-input is-email" maxlength="256" name="Email" data-name="Email" placeholder="Work Email" type="email" id="Email" required="" style="background-color:var(--color-light); color:var(--color-primary);">
+                                            <input class="form_field-input is-email" maxlength="256" name="Email" data-name="Email" placeholder="Work Email" type="email" id="Email" required="">
                                         </div>
                                     </div>
                                     <div class="form_field-wrapper">
-                                        <textarea id="Message" name="Message" maxlength="5000" data-name="Message" placeholder="Your Message" class="form_field-input is-text" required="" style="background-color:var(--color-light); color:var(--color-primary);"></textarea>
+                                        <textarea id="Message" name="Message" maxlength="5000" data-name="Message" placeholder="Your Message" class="form_field-input is-text" required=""></textarea>
                                     </div>
-                                    <button type="submit" data-wait="Please wait..." class="button-secondary is-brand w-button" style="background-color:var(--color-accent-gold); color:var(--color-primary);">
+                                    <button type="submit" data-wait="Please wait..." class="button-secondary is-brand w-button">
                                         <div class="text-weight-bold text-size-tiny">Send Message</div>
                                     </button>
                                 </form>
@@ -325,7 +381,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="footer-line" style="background-color:var(--color-accent-gold);"></div>
+                <div class="footer-line"></div>
                 <div class="footer-bottom">
                     <div class="footer-bottom_grid">
                         <div class="footer-bottom_component">
@@ -340,13 +396,12 @@
     </div>
     
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=634628f240578832a537f1fa" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetzlnag4=" crossorigin="anonymous"></script>
+    <script src="https://assets.slater.app/slater/15889/42698.js?v=266536" type="text/javascript"></script>
     <script>
-        // Custom Mehfooz Initialization (for effects from index (5).html)
+        // Custom Mehfooz Initialization (Placeholder for additional scripts from index (5).html)
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Mehfooz Custom Scripts Initialized.");
-            // Add custom JS functions here (e.g., initCursor(), initIntroGame())
+            console.log("Mehfooz Custom Scripts Initialized (Aesthetics adapted from Hubcycle).");
         });
     </script>
-    
-    </body>
+</body>
 </html>
