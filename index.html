@@ -15,7 +15,6 @@
 
     <style>
       /* --- 1. HUB CYCLE BASE STYLES (REQUIRED FOR LAYOUT) --- */
-      /* This is the base Webflow/Hubcycle CSS structure */
       @import url("https://assets.slater.app/slater/15889/43231.css?v=630500");
 
       /* --- 2. CORE MEHFOOZ VARIABLES & OVERRIDES --- */
@@ -72,14 +71,14 @@
       .manifesto-right .button-secondary.is-contact { background-color: var(--color-primary) !important; }
       .manifesto-right .button-secondary.is-contact div { color: var(--color-accent-gold) !important; }
 
-      /* --- Hero Fix: Vertical Flow --- */
+      /* --- Hero Fix: Vertical Flow for Stability (Hubcycle's horizontal scroll is disabled) --- */
       .scroll_horizontal_contain { overflow: visible !important; }
       .scroll_horizontal_inner { width: 100% !important; }
       .scroll_horizontal_track { display: block !important; }
       .scroll_horizontal_hero_wrap { width: 100% !important; margin-bottom: 60px; padding: 20px; }
       .section.is-hero { padding-top: 100px; padding-bottom: 100px; height: auto !important; }
       
-      /* --- Custom Mehfooz Particle/Intro Styles (from index (5).html) --- */
+      /* --- Custom Mehfooz Particle/Intro Styles --- */
       #cosmic-bg {
           position: fixed;
           top: 0;
@@ -395,7 +394,6 @@
         const els = {
             cosmicBg: document.getElementById('cosmic-bg'),
             loadingScreen: document.getElementById('loading-screen'),
-            // Add other elements if needed for future functionality (like modals/chat bubbles)
         };
 
         let cosmicBgAnimator = null;
@@ -408,8 +406,10 @@
             let scene, camera, renderer, particles, particleCount = 2000;
             const particleGeometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
+            
+            // Use Gold color for the particles
             const particleMaterial = new THREE.PointsMaterial({
-                color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-accent-teal')),
+                color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-accent-gold')),
                 size: 0.8,
                 blending: THREE.AdditiveBlending,
                 transparent: true,
@@ -430,12 +430,15 @@
             particles = new THREE.Points(particleGeometry, particleMaterial);
             scene.add(particles);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             els.cosmicBg.appendChild(renderer.domElement);
 
             function animate() {
-                if (!isIntroComplete) return; // Only animate after intro
+                if (!isIntroComplete) {
+                   requestAnimationFrame(animate); 
+                   return;
+                }
 
                 requestAnimationFrame(animate);
 
@@ -455,11 +458,8 @@
 
             window.addEventListener('resize', onWindowResize, false);
             
-            // Expose the animator for external control (like disabling on hidden tab)
-            cosmicBgAnimator = { start: () => animate(), stop: () => { requestAnimationFrame = () => {}; } };
-
-            // Start animation after intro
-            if (isIntroComplete) animate();
+            // Start animation immediately
+            animate();
         }
 
         // --- 2. Intro Sequence / Hide Loader ---
@@ -471,14 +471,12 @@
                     els.loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         els.loadingScreen.style.display = 'none';
-                        // Start the background animation after the loader is gone
-                        if (cosmicBgAnimator) cosmicBgAnimator.start();
                     }, 1000); // 1s to allow CSS fade
                 }
             }, 2000);
         }
 
-        // --- 3. Keyboard Shortcuts (from index (5).html) ---
+        // --- 3. Keyboard Shortcuts (DYNAMIC ELEMENT) ---
         function initKeyboardShortcuts() {
             document.addEventListener('keydown', (e) => {
                 // Ignore shortcuts if input is active
@@ -497,13 +495,11 @@
                     document.querySelector('a[href="#contact"]')?.click(); 
                 }
             });
-            console.log("Keyboard Shortcuts initialized: H (Home), M (Manifesto), C (Contact)");
         }
 
 
         // --- Initialize Everything ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Ensure jQuery and Webflow scripts are loaded first, then run custom functions
             initCosmicBackground();
             initIntroSequence();
             initKeyboardShortcuts();
