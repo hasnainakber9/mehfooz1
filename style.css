@@ -175,10 +175,31 @@ strong { color: var(--color-accent-gold); font-weight: 700; }
 .btn { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 1rem; padding: 0.8rem 1.75rem; border-radius: var(--radius-full); text-decoration: none; border: 2px solid transparent; cursor: none; transition: all var(--transition-normal); }
 .btn-primary { background: linear-gradient(135deg, var(--color-accent-teal), var(--color-accent-gold)); color: var(--color-primary); border: none; font-weight: 800; }
 .btn-primary:hover { transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-lg), var(--shadow-glow); }
-.btn-outline { background-color: transparent; color: var(--color-accent-teal); border-color: var(--color-accent-teal); }
-.btn-outline:hover { background-color: var(--color-accent-teal); color: var(--color-primary); }
+/* REMOVED .btn-outline */
 .btn-secondary { background: var(--color-glass); color: var(--color-text); border-color: var(--color-glass-border); backdrop-filter: blur(5px); }
-.btn-secondary:hover { border-color: var(--color-accent-teal); color: var(--color-accent-teal); transform: translateY(-3px); }
+.btn-secondary:hover { 
+    /* UPDATED: Emphasize Teal for Digital theme */
+    border-color: var(--color-accent-teal); 
+    color: var(--color-accent-teal); 
+    transform: translateY(-3px); 
+    box-shadow: 0 0 10px rgba(0, 128, 128, 0.4); /* Subtle teal glow */
+}
+
+/* NEW: Digital Glow Effect */
+.digital-glow-hover {
+    background: transparent;
+    color: var(--color-accent-teal);
+    border: 2px solid var(--color-accent-teal);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.digital-glow-hover:hover {
+    color: var(--color-text);
+    background-color: rgba(0, 128, 128, 0.1);
+    border-color: var(--color-accent-gold);
+    box-shadow: 0 0 10px var(--color-accent-teal), 0 0 20px rgba(0, 128, 128, 0.5);
+    transform: scale(1.02);
+}
+
 
 /* Story/Journal Image */
 .journal-image-container { border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-lg); opacity: 0; aspect-ratio: 4 / 3; background-color: var(--color-dark); }
@@ -187,12 +208,20 @@ strong { color: var(--color-accent-gold); font-weight: 700; }
 /* Pillar Cards (Approach Section) */
 .pillar-card {
     background: var(--color-glass); border: 1px solid var(--color-glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border-radius: var(--radius-xl); padding: 2.5rem 2rem; box-shadow: var(--shadow-md); transition: all var(--transition-normal);
+    border-radius: var(--radius-xl); padding: 2.5rem 2rem; box-shadow: var(--shadow-md); 
+    transition: all var(--transition-normal), box-shadow 0.6s ease-in-out; /* Added box-shadow transition */
     display: flex; flex-direction: column; height: 100%; opacity: 0; transform: translateY(40px); position: relative; overflow: hidden;
 }
 .pillar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--color-accent-teal), var(--color-accent-gold)); transform: scaleX(0); transition: transform var(--transition-normal); transform-origin: left; }
 .pillar-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--color-accent-gold); }
 .pillar-card:hover::before { transform: scaleX(1); }
+/* New class for JS interaction */
+.pillar-card.is-active {
+    box-shadow: 0 0 30px rgba(0, 128, 128, 0.6), 0 0 15px rgba(218, 165, 32, 0.4);
+    border-color: var(--color-accent-teal);
+    transform: translateY(-5px);
+}
+
 .pillar-card-content { flex-grow: 1; }
 .pillar-title { font-family: var(--font-heading); font-size: 1.75rem; font-weight: 700; color: var(--color-accent-teal); margin-bottom: 1rem; }
 .pillar-body { font-size: 1rem; color: var(--color-medium); line-height: 1.6; }
