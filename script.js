@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalChatLog: '#modal-chat-log', modalChatForm: '#modal-chat-form', modalChatInput: '#modal-chat-input', modalPillContainer: '#modal-question-pills',
         contactForm: '#contact-form', formSuccess: '#form-success', chatBubble: '#chatBubble',
         pillarCardsContainer: '#pillar-cards-container',
-        approachSection: '#approach' // NEW selector for the main approach section
+        approachSection: '#approach'
     };
 
     // --- Element Cache & State ---
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isSiteEntered = false;
     let cosmicBgAnimator = null;
     let skipKeyListenerRef = null;
-    let splitHeadline; // Store split text object
+    let splitHeadline;
 
     // --- Initial Setup ---
     registerGsapPlugins();
@@ -80,12 +80,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Intro Sequence (Kept from previous version) ---
+    // --- Glitch Fix: Ensure sequence doesn't hang on an animation failure ---
     function startLoadingSequence() {
         if (!els.loadingScreen) return;
         createLoadingParticles();
-        setTimeout(hideLoadingScreen, 500);
+        
+        // Use a robust method to ensure the next step executes
+        // Check for GSAP availability and use the safe fade, or jump straight to the next stage.
+        if (typeof gsap !== 'undefined') {
+            // Wait a moment for the initial loading animation to be seen
+            setTimeout(hideLoadingScreen, 1200); 
+        } else {
+            // Immediately transition to intro game if GSAP is missing
+            setTimeout(hideLoadingScreen, 100); 
+        }
     }
+    
+    function hideLoadingScreen() {
+        if (!els.loadingScreen || !els.introGame) return;
+
+        const onComplete = () => { 
+            els.loadingScreen.classList.add('hidden'); 
+            els.loadingScreen.style.display = 'none'; 
+            els.introGame.classList.add('active'); 
+            initVisualIntro(); 
+        };
+
+        if (typeof gsap !== 'undefined') {
+            gsap.to(els.loadingScreen, { 
+                opacity: 0, 
+                duration: 0.5, 
+                ease: 'power2.out', 
+                onComplete: onComplete 
+            });
+        } else {
+            // Direct, non-animated jump if GSAP failed to load
+            onComplete();
+        }
+    }
+    // --- End Glitch Fix: Startup Flow ---
+
+
     function createLoadingParticles() {
         const container = els.loadingParticles;
         if (!container || document.body.classList.contains('reduced-motion')) return;
@@ -99,10 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(particle);
         }
     }
-    function hideLoadingScreen() {
-        if (typeof gsap === 'undefined' || !els.loadingScreen || !els.introGame) return;
-        gsap.to(els.loadingScreen, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => { els.loadingScreen.classList.add('hidden'); els.loadingScreen.style.display = 'none'; els.introGame.classList.add('active'); initVisualIntro(); } });
-    }
+
     function initVisualIntro() {
         const { sparkContainer, gameSkip } = els;
         if (!sparkContainer || !gameSkip || document.body.classList.contains('reduced-motion')) { setTimeout(completeIntroGame, 100); return; }
@@ -116,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         skipKeyListenerRef = (e) => { if (!isProcessing && els.introGame.classList.contains('active')) { if (e.key === 'Escape' || e.key.toLowerCase() === 's') { completeIntroGame(); } } };
         document.addEventListener('keydown', skipKeyListenerRef);
     }
+    
     function completeIntroGame() {
         if (isSiteEntered || !els.introGame || !els.siteWrapper) {
             // Fallback for non-GSAP environments
@@ -181,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- Motion Preferences & Background Control (Updated to include Data Stream Canvas) ---
+    // --- Motion Preferences & Background Control (Kept from previous version) ---
     function initMotionAndBackground() {
         if (!els.motionToggle) return;
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -205,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const showStatic = !enabled || typeof THREE === 'undefined';
             els.cosmicBackground.style.display = showStatic ? 'none' : 'block';
             els.staticBackground.style.display = showStatic ? 'block' : 'none';
-            els.dataStreamCanvas.style.display = showStatic ? 'none' : 'block'; // Toggle new canvas
+            els.dataStreamCanvas.style.display = showStatic ? 'none' : 'block';
 
             if (cosmicBgAnimator) {
                 if (showStatic) { cosmicBgAnimator.stop(); } else { cosmicBgAnimator.animate(); }
@@ -255,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) { console.error('Three.js background failed:', error); els.cosmicBackground.style.display = 'none'; els.staticBackground.style.display = 'block'; cosmicBgAnimator = { animate: ()=>{}, stop: ()=>{} }; }
     }
 
-    // --- NEW: Data Stream Canvas Animation (Hero Overlay) ---
+    // --- Data Stream Canvas Animation (Kept from previous version) ---
     function initDataStreamCanvas() {
         if (!els.dataStreamCanvas || document.body.classList.contains('reduced-motion')) return;
 
@@ -272,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
             columns = canvas.width / fontSize;
             drops = [];
             for (let i = 0; i < columns; i++) {
-                drops[i] = 1; // Start y at 1st line
+                drops[i] = 1;
             }
         }
 
@@ -312,14 +345,13 @@ document.addEventListener('DOMContentLoaded', function() {
         animateDataStream(0);
     }
 
-    // --- Hero Content Animation (CRAZIER version with SplitText) ---
+    // --- Hero Content Animation (Kept from previous version) ---
     function initHeroAnimation() {
         if (document.body.classList.contains('reduced-motion') || typeof gsap === 'undefined' || !els.heroHeadline || !els.heroSubheadline) return;
 
         initDataStreamCanvas();
 
         if (typeof SplitText === 'undefined') {
-            // Fallback to simple gradient animation if SplitText is missing
             gsap.set(els.heroHeadline, { opacity: 1 });
             const tl = gsap.timeline({ delay: 0.5 });
             tl.to(els.heroHeadline, { backgroundPosition: '0% 0', duration: 1.5, ease: 'power2.inOut' })
@@ -331,7 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const tl = gsap.timeline({ delay: 0.8 });
 
-        // 1. Reveal words with a chaotic glitch/stagger effect
         tl.from(splitHeadline.words, {
             y: 50,
             opacity: 0,
@@ -340,16 +371,13 @@ document.addEventListener('DOMContentLoaded', function() {
             ease: "back.out(1.7)",
             duration: 1.5,
             onStart: () => {
-                // Remove animation glow property to start without it, then add it
                 els.heroHeadline.style.animation = 'none';
-                gsap.to(els.heroHeadline, { opacity: 1, duration: 0.1 }); // Show words parent
+                gsap.to(els.heroHeadline, { opacity: 1, duration: 0.1 });
             }
         })
-        // 2. Add subtle, continuous glow after initial reveal (re-enabling the CSS animation)
         .add(() => {
             els.heroHeadline.style.animation = 'heavenlyGlow 5s ease-in-out infinite alternate';
         })
-        // 3. Reveal subheadline
         .to(els.heroSubheadline, {
             opacity: 1,
             y: 0,
@@ -358,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, "-=0.8");
     }
 
-    // --- General Site Animations (ScrollTrigger Reveals, Counters, and NEW Parallax/Pinning) ---
+    // --- General Site Animations (Glitch Fix Applied to Parallax and Pinning) ---
     function initSiteAnimations() {
          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
          
@@ -373,13 +401,13 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              });
 
-             // 2. Parallax Effects (New - ADDED force3D for smoother movement)
+             // 2. Parallax Effects (FIXED: Added force3D for GPU rendering)
              gsap.utils.toArray('[data-speed]').forEach(elem => {
                  const speed = parseFloat(elem.getAttribute('data-speed'));
                  gsap.to(elem, {
                      y: () => -(ScrollTrigger.maxScroll(window) * speed),
                      ease: "none",
-                     force3D: true, // Use GPU acceleration to prevent jitter
+                     force3D: true, // FIX: Forces transform onto the GPU
                      scrollTrigger: {
                          trigger: elem,
                          start: "top bottom",
@@ -405,27 +433,26 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              }
 
-             // 4. Approach Section Pinning (FIXED: Improved Pinning Logic)
+             // 4. Approach Section Pinning (FIXED: Optimized Pinning Logic)
              if (els.pillarCardsContainer && els.approachSection) {
                  const cards = gsap.utils.toArray('.pillar-card');
                  
-                 // Create a single ScrollTrigger instance to control the whole section
+                 // FIX: Ensure the pin wraps around the *entire* approach section scroll area
                  ScrollTrigger.create({
                      trigger: els.approachSection,
                      start: 'top top',
-                     end: 'bottom bottom',
-                     pin: els.pillarCardsContainer, // Pin the card grid container
+                     end: '+=200%', // Pin for 200% scroll distance (or equivalent of min-height 250vh defined in CSS)
+                     pin: els.pillarCardsContainer, 
                      pinSpacing: true,
                      
                      onUpdate: (self) => {
                          const progress = self.progress;
-                         const cardDuration = 0.33; // Each card is active for 1/3 of the scroll
+                         const cardDuration = 0.33; 
                          
                          cards.forEach((card, index) => {
                              const startTime = index * cardDuration; 
                              const endTime = startTime + cardDuration; 
                              
-                             // Calculate progress specific to this card's activation window
                              let cardProgress = 0;
                              if (progress >= startTime && progress <= endTime) {
                                  cardProgress = (progress - startTime) / cardDuration;
@@ -433,28 +460,25 @@ document.addEventListener('DOMContentLoaded', function() {
                                  cardProgress = 1;
                              }
                              
-                             const cardActive = progress >= startTime && progress < startTime + 0.4; // Slightly overlap activation
+                             const cardActive = progress >= startTime && progress < startTime + 0.4;
                              
-                             // Animate properties based on cardProgress (0 to 1)
-                             const scale = 1 + (cardProgress * 0.05); // Scale up to 1.05
-                             const opacity = 0.5 + (cardProgress * 0.5); // Opacity up to 1.0
-                             const glowIntensity = Math.min(1, cardProgress * 2); // Quick ramp up of glow
+                             const scale = 1 + (cardProgress * 0.05); 
+                             const opacity = 0.5 + (cardProgress * 0.5); 
+                             const glowIntensity = Math.min(1, cardProgress * 2); 
                              
                              gsap.to(card, {
                                  opacity: opacity,
                                  scale: scale,
-                                 // Dynamic boxShadow based on glow intensity
                                  boxShadow: `0 0 ${glowIntensity * 30}px rgba(0, 128, 128, ${glowIntensity * 0.6}), 0 0 15px rgba(218, 165, 32, ${glowIntensity * 0.4})`,
                                  duration: 0.1,
                                  ease: "none",
-                                 force3D: true // Helps smooth the card movement/scaling
+                                 force3D: true // FIX: Helps smooth the card scaling/glow
                              });
 
-                             // Animate the top border '::before' element (Simulating CSS transition via JS)
+                             // Animate the top border '::before' element
                              const borderScale = gsap.utils.clamp(0, 1, cardProgress * 1.5);
                              gsap.set(card, { '--gsap-scaleX': borderScale }); 
                              
-                             // Re-apply original hover effect class after the scroll sequence is complete
                              if (!cardActive && progress > endTime - 0.1) {
                                  card.classList.remove('is-active');
                              } else if (cardActive) {
@@ -467,13 +491,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
              return () => { 
                  if(splitHeadline) splitHeadline.revert();
-                 // Kill the pinning ScrollTrigger on cleanup
+                 // Ensure ScrollTrigger instances are killed on cleanup
                  ScrollTrigger.getAll().forEach(st => st.kill()); 
              };
          });
          
          mm.add("(prefers-reduced-motion: reduce)", () => {
-             // Instant reveal for reduced-motion users (kept from previous version)
              gsap.utils.toArray('.reveal-up, .journal-image-container, #hero-headline, #hero-subheadline').forEach(elem => {
                  gsap.set(elem, { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', scale: 1 });
              });
@@ -514,8 +537,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-    // --- Remaining functions (Chatbot, Contact, Modals, Accessibility) are unchanged for this fix. ---
+    // --- Remaining functions (Challenge, Chatbot, Contact, Modals, Accessibility) are unchanged. ---
+    function initChallengeAnimation() {
+        if (!els.networkCanvas || document.body.classList.contains('reduced-motion')) return;
+        const canvas = els.networkCanvas;
+        const ctx = canvas.getContext('2d');
+        let nodes = [];
+        let animationFrameId;
+        function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; createNodes(); }
+        class Node {
+            constructor(x, y) { this.x = x; this.y = y; this.radius = Math.random() * 2 + 1; this.baseColor = 'rgba(168, 162, 154, 0.5)'; this.color = this.baseColor; this.isGlitched = false; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
+        }
+        function createNodes() {
+            nodes = []; const density = window.innerWidth < 768 ? 80 : 60; const cols = Math.floor(canvas.width / density); const rows = Math.floor(canvas.height / density);
+            for (let i = 0; i < cols; i++) { for (let j = 0; j < rows; j++) { const x = i * density + (Math.random()) * density; const y = j * density + (Math.random()) * density; nodes.push(new Node(x, y)); } }
+        }
+        function connectNodes() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x; const dy = nodes[i].y - nodes[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 90) {
+                        ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
+                        const opacity = 1 - (dist / 90); const color = nodes[i].isGlitched && nodes[j].isGlitched ? `rgba(255, 107, 107, ${opacity * 0.5})` : `rgba(168, 162, 154, ${opacity * 0.4})`;
+                        ctx.strokeStyle = color; ctx.lineWidth = 0.5; ctx.stroke();
+                    }
+                }
+            }
+        }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); nodes.forEach(node => node.draw()); connectNodes(); animationFrameId = requestAnimationFrame(animate); }
+        resizeCanvas(); animate(); window.addEventListener('resize', resizeCanvas);
+        ScrollTrigger.create({
+            trigger: '#challenge', start: 'top center', end: 'bottom center',
+            onUpdate: (self) => {
+                const progress = self.progress; nodes.forEach(node => {
+                    if (Math.random() < progress * 0.01) { node.isGlitched = true; node.color = `rgba(255, 107, 107, ${Math.random() * 0.5 + 0.5})`; }
+                    else if (node.isGlitched && Math.random() > 0.95) { node.isGlitched = false; node.color = node.baseColor; }
+                });
+            },
+            onLeaveBack: () => { nodes.forEach(node => { node.isGlitched = false; node.color = node.baseColor; }); }
+        });
+    }
+    
     const botResponses = { "greeting": "Hello! How can I assist you today on your journey to digital clarity?", "default": "That's an interesting point. While this demo is limited, the full MehfoozBot explores topics like that in detail.", "misinformation": "Spotting misinformation involves a few key steps: Check the source's credibility, look for supporting evidence, be wary of emotionally charged language, and check the date.", "safety": "Online safety basics include using strong, unique passwords, enabling two-factor authentication, and being cautious about links or attachments.", "story": "Mehfooz began from listening to the community in Skardu. We realized the need wasn't just *more* tech, but *understanding* tech. You can read more in the 'Our Story' section.", "ulema": "We proudly partner with local Ulema (religious leaders). They serve as trusted community voices, helping bridge traditional wisdom with essential digital literacy skills." };
     const promptQuestions = { "How do you work?": "ulema", "What's your story?": "story", "Spotting fake news?": "misinformation", "Staying safe online?": "safety" };
     const modalQuestions = ["How can I spot fake news?", "Is my WhatsApp safe?", "What is misinformation?"];
