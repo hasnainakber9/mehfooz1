@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.add('reduced-motion');
             return;
         }
-        // Plugins are now loaded in HTML head
         if (els.userCounter || els.platformCounter) {
             gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, TextPlugin, SplitText);
         } else {
@@ -69,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!els.loadingScreen) return;
         createLoadingParticles();
         
-        // Use a slightly longer timeout for reliable library loading
         setTimeout(hideLoadingScreen, 1200); 
     }
     
@@ -133,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             els.siteWrapper.classList.remove('opacity-0');
             els.siteWrapper.style.visibility = 'visible';
             document.body.classList.add('site-entered');
-            initSmoothScroll(); initNavigation(); initAccessibility(); initMotionAndBackground(); initDataStreamCanvas(); initChallengeAnimation(); initChatbot(); initContactForm(); initFloatingChatBubble(); initPillarCardInteraction(); initSiteAnimations(); // Added initChallengeAnimation
+            initSmoothScroll(); initNavigation(); initAccessibility(); initMotionAndBackground(); initDataStreamCanvas(); initChallengeAnimation(); initChatbot(); initContactForm(); initFloatingChatBubble(); initPillarCardInteraction(); initSiteAnimations();
             return;
         }
 
@@ -322,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animateDataStream(0);
     }
 
-    // --- Hero Content Animation (FIX: Uses safer element reference) ---
+    // --- Hero Content Animation (CRITICAL FIX APPLIED) ---
     function initHeroAnimation() {
         if (document.body.classList.contains('reduced-motion') || typeof gsap === 'undefined' || !els.heroHeadline || !els.heroSubheadline) return;
 
@@ -336,32 +334,34 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // FIX: Split the simple inner text of the H1 element
-        splitHeadline = new SplitText(els.heroHeadline, { type: "words", wordsClass: "word" });
+        // FIX: Introduce a minuscule delay to ensure SplitText can reliably read the DOM structure
+        gsap.delayedCall(0.01, () => {
+            splitHeadline = new SplitText(els.heroHeadline, { type: "words", wordsClass: "word" });
 
-        const tl = gsap.timeline({ delay: 0.8 });
+            const tl = gsap.timeline({ delay: 0.8 });
 
-        tl.from(splitHeadline.words, {
-            y: 50,
-            opacity: 0,
-            rotationX: -90,
-            stagger: 0.05,
-            ease: "back.out(1.7)",
-            duration: 1.5,
-            onStart: () => {
-                els.heroHeadline.style.animation = 'none';
-                gsap.to(els.heroHeadline, { opacity: 1, duration: 0.1 });
-            }
-        })
-        .add(() => {
-            els.heroHeadline.style.animation = 'heavenlyGlow 5s ease-in-out infinite alternate';
-        })
-        .to(els.heroSubheadline, {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: 'power2.out'
-        }, "-=0.8");
+            tl.from(splitHeadline.words, {
+                y: 50,
+                opacity: 0,
+                rotationX: -90,
+                stagger: 0.05,
+                ease: "back.out(1.7)",
+                duration: 1.5,
+                onStart: () => {
+                    els.heroHeadline.style.animation = 'none';
+                    gsap.to(els.heroHeadline, { opacity: 1, duration: 0.1 });
+                }
+            })
+            .add(() => {
+                els.heroHeadline.style.animation = 'heavenlyGlow 5s ease-in-out infinite alternate';
+            })
+            .to(els.heroSubheadline, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power2.out'
+            }, "-=0.8");
+        });
     }
 
     // --- Challenge Animation (Kept from previous version) ---
