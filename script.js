@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let cosmicBgAnimator = null;
     let skipKeyListenerRef = null;
     let splitHeadline;
-    let isLoadingScreenHidden = false; // FIX FLAG: To prevent re-triggering
+    let isLoadingScreenHidden = false; 
 
     // --- Initial Setup ---
     registerGsapPlugins();
@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!els.loadingScreen) return;
         createLoadingParticles();
         
+        // Use a consistent timeout
         setTimeout(hideLoadingScreen, 1200); 
     }
     
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             els.siteWrapper.classList.remove('opacity-0');
             els.siteWrapper.style.visibility = 'visible';
             document.body.classList.add('site-entered');
-            initSmoothScroll(); initNavigation(); initAccessibility(); initMotionAndBackground(); initDataStreamCanvas(); initChallengeAnimation(); initChatbot(); initContactForm(); initFloatingChatBubble(); initPillarCardInteraction(); initSiteAnimations();
+            initSmoothScroll(); initNavigation(); initAccessibility(); initMotionAndBackground(); initChallengeAnimation(); initChatbot(); initContactForm(); initFloatingChatBubble(); initPillarCardInteraction(); initSiteAnimations();
             return;
         }
 
@@ -189,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- Motion Preferences & Background Control (Kept from previous version) ---
+    // --- Motion Preferences & Background Control (Lazy Load Init) ---
     function initMotionAndBackground() {
         if (!els.motionToggle) return;
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -209,16 +210,21 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.toggle('reduced-motion', isNowReduced);
         if (lenis) enabled ? lenis.start() : lenis.stop();
 
+        // FIX: Only initialize complex visuals if motion is ENABLED AND libraries are present
+        const showVisuals = enabled && typeof THREE !== 'undefined';
+        
         if (els.cosmicBackground && els.staticBackground) {
-            const showStatic = !enabled || typeof THREE === 'undefined';
-            els.cosmicBackground.style.display = showStatic ? 'none' : 'block';
-            els.staticBackground.style.display = showStatic ? 'block' : 'none';
-            els.dataStreamCanvas.style.display = showStatic ? 'none' : 'block';
+            els.cosmicBackground.style.display = showVisuals ? 'block' : 'none';
+            els.staticBackground.style.display = showVisuals ? 'none' : 'block';
+            els.dataStreamCanvas.style.display = showVisuals ? 'block' : 'none';
 
-            if (cosmicBgAnimator) {
-                if (showStatic) { cosmicBgAnimator.stop(); } else { cosmicBgAnimator.animate(); }
-            } else if (!showStatic && typeof THREE !== 'undefined') { initCosmicBackground(); }
-            if (!showStatic) initDataStreamCanvas();
+            if (showVisuals) {
+                if (!cosmicBgAnimator) initCosmicBackground();
+                if (!cosmicBgAnimator.animationId) cosmicBgAnimator.animate();
+                initDataStreamCanvas();
+            } else if (cosmicBgAnimator) {
+                 cosmicBgAnimator.stop();
+            }
         }
         if (wasReduced !== isNowReduced && typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh(); }
     }
@@ -257,7 +263,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderer.render(scene, camera);
             };
             const stop = () => { if (animationId) cancelAnimationFrame(animationId); animationId = null; };
-            cosmicBgAnimator = { animate, stop }; animate();
+            cosmicBgAnimator = { animate, stop, animationId }; // Store animationId for stop/start control
+            
+            animate(); // Start immediately upon successful initialization
+            
             const handleResize = () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); };
             window.addEventListener('resize', handleResize);
         } catch (error) { console.error('Three.js background failed:', error); els.cosmicBackground.style.display = 'none'; els.staticBackground.style.display = 'block'; cosmicBgAnimator = { animate: ()=>{}, stop: ()=>{} }; }
@@ -324,7 +333,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function initHeroAnimation() {
         if (document.body.classList.contains('reduced-motion') || typeof gsap === 'undefined' || !els.heroHeadline || !els.heroSubheadline) return;
 
-        initDataStreamCanvas();
+        // FIX: Only initialize Data Stream here if motion is enabled (handled by setMotion)
+        // initDataStreamCanvas(); // Removed redundant call here
 
         if (typeof SplitText === 'undefined') {
             gsap.set(els.heroHeadline, { opacity: 1 });
@@ -727,5 +737,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (els.chatBubble) { els.chatBubble.addEventListener('click', () => { toggleModal(els.botModal, true); if (window.initModalChat) { window.initModalChat(); } setTimeout(() => els.modalChatInput?.focus(), 300); }); }
     }
 
-    document.addEventListener('visibilitychange', () => { if (cosmicBgAnimator) { if (document.hidden) { cosmicBgAnimator.stop(); } else if (!document.body.classList.contains('reduced-motion')) { cosmicBgAnimator.animate(); } } });
+    document.addEventListener('visibilitychange', () => { 
+        if (cosmicBgAnimator && !document.body.classList.contains('reduced-motion')) { 
+            if (document.hidden) { cosmicBgAnimator.stop(); } else { cosmicBgAnimator.animate(); } 
+        } 
+    });
 });
