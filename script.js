@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         chatLog: '#chat-log', chatForm: '#chat-form', chatInput: '#chat-input', promptButtonsContainer: '#prompt-buttons',
         openBotBtn: '#open-bot-demo-approach', botModal: '#bot-modal', closeBotBtn: '#close-bot-demo',
         modalChatLog: '#modal-chat-log', modalChatForm: '#modal-chat-form', modalChatInput: '#modal-chat-input', modalPillContainer: '#modal-question-pills',
-        contactForm: '#contact-form', formSuccess: '#form-success', chatBubble: '#chatBubble'
+        contactForm: '#contact-form', formSuccess: '#form-success', chatBubble: '#chatBubble',
+        pillarCardsContainer: '#pillar-cards-container' // NEW selector for the Pillar Cards
     };
 
     // --- Element Cache & State ---
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function completeIntroGame() {
-        if (isSiteEntered || !els.introGame || !els.siteWrapper || typeof gsap === 'undefined') {
+        if (isSiteEntered || !els.introGame || !els.siteWrapper) {
             // Fallback for no-js or reduced-motion
             els.introGame.style.display = 'none';
             els.siteWrapper.classList.remove('opacity-0');
@@ -172,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initChatbot();
             initContactForm();
             initFloatingChatBubble();
+            initPillarCardInteraction(); // Call the new interaction setup
             return;
         }
 
@@ -196,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 initChatbot();
                 initContactForm();
                 initFloatingChatBubble();
+                initPillarCardInteraction(); // Call the new interaction setup
             }
         });
 
@@ -629,6 +632,38 @@ document.addEventListener('DOMContentLoaded', function() {
              if(els.platformCounter) els.platformCounter.innerHTML = "3+";
          });
     }
+
+    // --- NEW: Pillar Card JS Interaction ---
+    function initPillarCardInteraction() {
+        if (document.body.classList.contains('reduced-motion') || !els.pillarCardsContainer) return;
+        
+        const cards = els.pillarCardsContainer.querySelectorAll('.pillar-card');
+        
+        cards.forEach(card => {
+            const button = card.querySelector('button');
+            const target = button || card; // Apply effect to button if present, otherwise the card itself
+
+            target.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    '--pillar-shadow-color': 'rgba(0, 128, 128, 0.6)', // Teal glow variable
+                    boxShadow: '0 0 30px rgba(0, 128, 128, 0.6), 0 0 15px rgba(218, 165, 32, 0.4)',
+                    duration: 0.5,
+                    ease: "power1.out"
+                });
+                card.classList.add('is-active');
+            });
+
+            target.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    boxShadow: 'var(--shadow-md)', // Restore original shadow
+                    duration: 0.5,
+                    ease: "power1.out",
+                    onComplete: () => card.classList.remove('is-active')
+                });
+            });
+        });
+    }
+
 
     // --- Chatbot Logic (Demo Simulation) ---
     function initChatbot() {
