@@ -1,5 +1,5 @@
-// MEHFOOZ | DIGITAL ENLIGHTENMENT - PRODUCTION JAVASCRIPT
-// Contains: Advanced Motion Graphics, Scroll-Based Interactivity, and Enhanced Visuals.
+// MEHFOOZ | DIGITAL ENLIGHTENMENT - PRODUCTION JAVASCRIPT (Stable Base + Blue)
+// Contains: Basic Animations, Scroll-Based Interactivity, and Blue Theme.
 
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         siteHeader: '#site-header', navLinksContainer: '#nav-links', mobileNavToggle: '#mobile-nav-toggle',
         heroHeadline: '#hero-headline', heroSubheadline: '#hero-subheadline',
         cosmicBackground: '#cosmicBackground', staticBackground: '#staticBackground', networkCanvas: '#network-canvas',
-        dataStreamCanvas: '#data-stream-canvas',
+        // dataStreamCanvas: '#data-stream-canvas', // Removed
         userCounter: '#user-counter', platformCounter: '#platform-counter',
         settingsToggleBtn: '#settings-toggle-btn', settingsModal: '#settings-modal', settingsCloseBtn: '#settings-close-btn',
         motionToggle: '#motion-toggle', helpToggleBtn: '#help-toggle-btn', keyboardHelp: '#keyboard-help',
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalChatLog: '#modal-chat-log', modalChatForm: '#modal-chat-form', modalChatInput: '#modal-chat-input', modalPillContainer: '#modal-question-pills',
         contactForm: '#contact-form', formSuccess: '#form-success', chatBubble: '#chatBubble',
         pillarCardsContainer: '#pillar-cards-container',
-        approachSection: '#approach'
+        // approachSection: '#approach' // Removed
     };
 
     // --- Element Cache & State ---
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isSiteEntered = false;
     let cosmicBgAnimator = null;
     let skipKeyListenerRef = null;
-    let splitHeadline;
+    // let splitHeadline; // Removed
     let isLoadingScreenHidden = false; 
 
     // --- Initial Setup ---
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCustomCursor();
     startLoadingSequence();
 
-    // --- GSAP Plugin Registration (Safety Check) ---
+    // --- GSAP Plugin Registration (Reverted) ---
     function registerGsapPlugins() {
         if (typeof gsap === 'undefined') {
             console.error("GSAP not loaded. Animations disabled.");
@@ -57,18 +57,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         if (els.userCounter || els.platformCounter) {
-            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, TextPlugin, SplitText);
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, TextPlugin); // Removed SplitText
         } else {
-            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
         }
     }
 
-    // --- FIX: Robust Startup Flow ---
+    // --- Robust Startup Flow (Kept from fix) ---
     function startLoadingSequence() {
         if (!els.loadingScreen) return;
         createLoadingParticles();
-        
-        // Use a consistent timeout
         setTimeout(hideLoadingScreen, 1200); 
     }
     
@@ -94,9 +92,9 @@ document.addEventListener('DOMContentLoaded', function() {
             onComplete();
         }
     }
-    // --- End FIX: Startup Flow ---
+    // --- End Startup Flow ---
 
-
+    // --- Intro Sequence (Unchanged) ---
     function createLoadingParticles() {
         const container = els.loadingParticles;
         if (!container || document.body.classList.contains('reduced-motion')) return;
@@ -110,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(particle);
         }
     }
-
     function initVisualIntro() {
         const { sparkContainer, gameSkip } = els;
         if (!sparkContainer || !gameSkip || document.body.classList.contains('reduced-motion')) { setTimeout(completeIntroGame, 100); return; }
@@ -124,10 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
         skipKeyListenerRef = (e) => { if (!isProcessing && els.introGame.classList.contains('active')) { if (e.key === 'Escape' || e.key.toLowerCase() === 's') { completeIntroGame(); } } };
         document.addEventListener('keydown', skipKeyListenerRef);
     }
-    
     function completeIntroGame() {
         if (isSiteEntered || !els.introGame || !els.siteWrapper) {
-            // Fallback for non-GSAP environments
+            // Fallback
             els.introGame.style.display = 'none';
             els.siteWrapper.classList.remove('opacity-0');
             els.siteWrapper.style.visibility = 'visible';
@@ -153,10 +149,10 @@ document.addEventListener('DOMContentLoaded', function() {
           .to(els.siteHeader, { y: '0%', opacity: 1, duration: 1.2, ease: 'power3.out' }, "-=0.7");
     }
 
-    // --- Smooth Scroll (Kept from previous version) ---
+    // --- Smooth Scroll (Unchanged) ---
     function initSmoothScroll() { if (typeof Lenis === 'undefined' || document.body.classList.contains('reduced-motion')) return; lenis = new Lenis(); gsap.ticker.add((time) => lenis.raf(time * 1000)); }
 
-    // --- Navigation (Kept from previous version) ---
+    // --- Navigation (Unchanged) ---
     function initNavigation() {
         if (els.siteHeader && typeof ScrollTrigger !== 'undefined') { ScrollTrigger.create({ start: 'top top-=-10px', onUpdate: self => els.siteHeader.classList.toggle('is-scrolled', self.direction === 1 && self.scroll() > 10) }); }
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -190,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- Motion Preferences & Background Control (Lazy Load Init) ---
+    // --- Motion Preferences & Background Control (Reverted - No Data Stream) ---
     function initMotionAndBackground() {
         if (!els.motionToggle) return;
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -210,18 +206,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.toggle('reduced-motion', isNowReduced);
         if (lenis) enabled ? lenis.start() : lenis.stop();
 
-        // FIX: Only initialize complex visuals if motion is ENABLED AND libraries are present
+        // Reverted to simpler background control
         const showVisuals = enabled && typeof THREE !== 'undefined';
         
         if (els.cosmicBackground && els.staticBackground) {
             els.cosmicBackground.style.display = showVisuals ? 'block' : 'none';
             els.staticBackground.style.display = showVisuals ? 'none' : 'block';
-            els.dataStreamCanvas.style.display = showVisuals ? 'block' : 'none';
+            // els.dataStreamCanvas.style.display = showVisuals ? 'none' : 'block'; // Removed
 
             if (showVisuals) {
                 if (!cosmicBgAnimator) initCosmicBackground();
-                if (!cosmicBgAnimator.animationId) cosmicBgAnimator.animate();
-                initDataStreamCanvas();
+                 else if (!cosmicBgAnimator.animationId) cosmicBgAnimator.animate(); // Restart if stopped
             } else if (cosmicBgAnimator) {
                  cosmicBgAnimator.stop();
             }
@@ -229,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (wasReduced !== isNowReduced && typeof ScrollTrigger !== 'undefined') { ScrollTrigger.refresh(); }
     }
 
-    // --- Cosmic Background (Kept from previous version) ---
+    // --- Cosmic Background (Unchanged) ---
     function initCosmicBackground() {
         if (typeof THREE === 'undefined' || !els.cosmicBackground || cosmicBgAnimator || document.body.classList.contains('reduced-motion')) { return; }
         try {
@@ -263,118 +258,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderer.render(scene, camera);
             };
             const stop = () => { if (animationId) cancelAnimationFrame(animationId); animationId = null; };
-            cosmicBgAnimator = { animate, stop, animationId }; // Store animationId for stop/start control
+            cosmicBgAnimator = { animate, stop, animationId }; 
             
-            animate(); // Start immediately upon successful initialization
+            animate(); 
             
             const handleResize = () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); };
             window.addEventListener('resize', handleResize);
         } catch (error) { console.error('Three.js background failed:', error); els.cosmicBackground.style.display = 'none'; els.staticBackground.style.display = 'block'; cosmicBgAnimator = { animate: ()=>{}, stop: ()=>{} }; }
     }
 
-    // --- Data Stream Canvas Animation (Kept from previous version) ---
-    function initDataStreamCanvas() {
-        if (!els.dataStreamCanvas || document.body.classList.contains('reduced-motion')) return;
+    // --- Data Stream Canvas Animation (Removed) ---
+    // function initDataStreamCanvas() { ... }
 
-        const canvas = els.dataStreamCanvas;
-        const ctx = canvas.getContext('2d');
-        const codes = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-~`{}[]|\\:;"\'<>,./?'.split('');
-        const fontSize = 16;
-        let columns;
-        let drops;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            columns = canvas.width / fontSize;
-            drops = [];
-            for (let i = 0; i < columns; i++) {
-                drops[i] = 1;
-            }
-        }
-
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        let lastTime = 0;
-        const fps = 25;
-        const interval = 1000 / fps;
-
-        function animateDataStream(timestamp) {
-            if (document.body.classList.contains('reduced-motion')) return;
-            const elapsed = timestamp - lastTime;
-
-            if (elapsed > interval) {
-                lastTime = timestamp - (elapsed % interval);
-
-                ctx.fillStyle = 'rgba(10, 13, 24, 0.1)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--color-accent-teal').trim() || '#00FFFF';
-                ctx.font = `${fontSize}px monospace`;
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = codes[Math.floor(Math.random() * codes.length)];
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                }
-            }
-            requestAnimationFrame(animateDataStream);
-        }
-
-        animateDataStream(0);
-    }
-
-    // --- Hero Content Animation (CRITICAL FIX APPLIED) ---
+    // --- Hero Content Animation (Reverted to Gradient) ---
     function initHeroAnimation() {
         if (document.body.classList.contains('reduced-motion') || typeof gsap === 'undefined' || !els.heroHeadline || !els.heroSubheadline) return;
 
-        // FIX: Only initialize Data Stream here if motion is enabled (handled by setMotion)
-        // initDataStreamCanvas(); // Removed redundant call here
+        gsap.set(els.heroHeadline, { opacity: 1 }); // Ensure visibility for gradient
+        const tl = gsap.timeline({ delay: 0.5 });
 
-        if (typeof SplitText === 'undefined') {
-            gsap.set(els.heroHeadline, { opacity: 1 });
-            const tl = gsap.timeline({ delay: 0.5 });
-            tl.to(els.heroHeadline, { backgroundPosition: '0% 0', duration: 1.5, ease: 'power2.inOut' })
-              .to(els.heroSubheadline, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' }, "-=1");
-            return;
-        }
-
-        // FIX: Introduce a minuscule delay to ensure SplitText can reliably read the DOM structure
-        gsap.delayedCall(0.01, () => {
-            splitHeadline = new SplitText(els.heroHeadline, { type: "words", wordsClass: "word" });
-
-            const tl = gsap.timeline({ delay: 0.8 });
-
-            tl.from(splitHeadline.words, {
-                y: 50,
-                opacity: 0,
-                rotationX: -90,
-                stagger: 0.05,
-                ease: "back.out(1.7)",
-                duration: 1.5,
-                onStart: () => {
-                    els.heroHeadline.style.animation = 'none';
-                    gsap.to(els.heroHeadline, { opacity: 1, duration: 0.1 });
-                }
-            })
-            .add(() => {
-                els.heroHeadline.style.animation = 'heavenlyGlow 5s ease-in-out infinite alternate';
-            })
-            .to(els.heroSubheadline, {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                ease: 'power2.out'
-            }, "-=0.8");
-        });
+        tl.to(els.heroHeadline, {
+            backgroundPosition: '0% 0', // Animate gradient
+            duration: 1.5,
+            ease: 'power2.inOut'
+        })
+        .to(els.heroSubheadline, {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power2.out'
+        }, "-=1");
     }
 
-    // --- Challenge Animation (Kept from previous version) ---
+    // --- Challenge Animation (Unchanged) ---
     function initChallengeAnimation() {
         if (!els.networkCanvas || document.body.classList.contains('reduced-motion')) return;
         const canvas = els.networkCanvas;
@@ -383,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let animationFrameId;
         function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; createNodes(); }
         class Node {
-            constructor(x, y) { this.x = x; this.y = y; this.radius = Math.random() * 2 + 1; this.baseColor = 'rgba(168, 162, 154, 0.5)'; this.color = this.baseColor; this.isGlitched = false; }
+            constructor(x, y) { this.x = x; this.y = y; this.radius = Math.random() * 2 + 1; this.baseColor = 'rgba(138, 154, 171, 0.5)'; this.color = this.baseColor; this.isGlitched = false; } // Updated baseColor
             draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
         }
         function createNodes() {
@@ -396,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const dx = nodes[i].x - nodes[j].x; const dy = nodes[i].y - nodes[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 90) {
                         ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
-                        const opacity = 1 - (dist / 90); const color = nodes[i].isGlitched && nodes[j].isGlitched ? `rgba(255, 107, 107, ${opacity * 0.5})` : `rgba(168, 162, 154, ${opacity * 0.4})`;
+                        const opacity = 1 - (dist / 90); const color = nodes[i].isGlitched && nodes[j].isGlitched ? `rgba(255, 107, 107, ${opacity * 0.5})` : `rgba(138, 154, 171, ${opacity * 0.4})`; // Updated line color
                         ctx.strokeStyle = color; ctx.lineWidth = 0.5; ctx.stroke();
                     }
                 }
@@ -416,13 +332,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- General Site Animations (Kept from previous version) ---
+    // --- General Site Animations (Reverted - No Parallax/Pinning) ---
     function initSiteAnimations() {
          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
          
          const mm = gsap.matchMedia();
 
          mm.add("(prefers-reduced-motion: no-preference)", () => {
+             // Standard reveal-up
              gsap.utils.toArray('.reveal-up').forEach(elem => {
                  gsap.fromTo(elem, { opacity: 0, y: 50 }, {
                      opacity: 1, y: 0, duration: 1.2, ease: 'power3.out',
@@ -430,21 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              });
 
-             gsap.utils.toArray('[data-speed]').forEach(elem => {
-                 const speed = parseFloat(elem.getAttribute('data-speed'));
-                 gsap.to(elem, {
-                     y: () => -(ScrollTrigger.maxScroll(window) * speed),
-                     ease: "none",
-                     force3D: true, 
-                     scrollTrigger: {
-                         trigger: elem,
-                         start: "top bottom",
-                         end: "bottom top",
-                         scrub: true,
-                     }
-                 });
-             });
-
+             // Counters
              if (els.userCounter && typeof TextPlugin !== 'undefined') {
                  gsap.to(els.userCounter, {
                      textContent: 100000, duration: 3, ease: "power2.inOut", snap: { textContent: 1 },
@@ -460,61 +363,8 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              }
 
-             if (els.pillarCardsContainer && els.approachSection) {
-                 const cards = gsap.utils.toArray('.pillar-card');
-                 
-                 ScrollTrigger.create({
-                     trigger: els.approachSection,
-                     start: 'top top',
-                     end: '+=200%',
-                     pin: els.pillarCardsContainer, 
-                     pinSpacing: true,
-                     
-                     onUpdate: (self) => {
-                         const progress = self.progress;
-                         const cardDuration = 0.33; 
-                         
-                         cards.forEach((card, index) => {
-                             const startTime = index * cardDuration; 
-                             const endTime = startTime + cardDuration; 
-                             
-                             let cardProgress = 0;
-                             if (progress >= startTime && progress <= endTime) {
-                                 cardProgress = (progress - startTime) / cardDuration;
-                             } else if (progress > endTime) {
-                                 cardProgress = 1;
-                             }
-                             
-                             const cardActive = progress >= startTime && progress < startTime + 0.4;
-                             
-                             const scale = 1 + (cardProgress * 0.05); 
-                             const opacity = 0.5 + (cardProgress * 0.5); 
-                             const glowIntensity = Math.min(1, cardProgress * 2); 
-                             
-                             gsap.to(card, {
-                                 opacity: opacity,
-                                 scale: scale,
-                                 boxShadow: `0 0 ${glowIntensity * 30}px rgba(0, 255, 255, ${glowIntensity * 0.6}), 0 0 15px rgba(0, 127, 255, ${glowIntensity * 0.4})`,
-                                 duration: 0.1,
-                                 ease: "none",
-                                 force3D: true
-                             });
-
-                             const borderScale = gsap.utils.clamp(0, 1, cardProgress * 1.5);
-                             gsap.set(card, { '--gsap-scaleX': borderScale }); 
-                             
-                             if (!cardActive && progress > endTime - 0.1) {
-                                 card.classList.remove('is-active');
-                             } else if (cardActive) {
-                                 card.classList.add('is-active');
-                             }
-                         });
-                     }
-                 });
-             }
-
+             // Cleanup function
              return () => { 
-                 if(splitHeadline) splitHeadline.revert();
                  ScrollTrigger.getAll().forEach(st => st.kill()); 
              };
          });
@@ -528,9 +378,9 @@ document.addEventListener('DOMContentLoaded', function() {
          });
     }
 
-    // --- Pillar Card Hover Interaction (Kept from previous version) ---
+    // --- Pillar Card Hover Interaction (Simple Version) ---
     function initPillarCardInteraction() {
-        if (document.body.classList.contains('reduced-motion') || !els.pillarCardsContainer || (window.innerWidth > 768 && els.approachSection)) return;
+        if (document.body.classList.contains('reduced-motion') || !els.pillarCardsContainer) return;
         
         const cards = els.pillarCardsContainer.querySelectorAll('.pillar-card');
         
@@ -540,65 +390,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
             target.addEventListener('mouseenter', () => {
                 gsap.to(card, {
-                    boxShadow: '0 0 30px rgba(0, 255, 255, 0.6), 0 0 15px rgba(0, 127, 255, 0.4)',
-                    transform: 'translateY(-5px) scale(1.01)',
-                    duration: 0.5,
+                    // Simpler hover effect
+                    boxShadow: 'var(--shadow-lg)',
+                    y: -5,
+                    duration: 0.3,
                     ease: "power1.out"
                 });
-                card.classList.add('is-active');
+                card.classList.add('is-active'); // Still add class for potential future styling
             });
 
             target.addEventListener('mouseleave', () => {
                 gsap.to(card, {
                     boxShadow: 'var(--shadow-md)',
-                    transform: 'translateY(0) scale(1)',
-                    duration: 0.5,
+                    y: 0,
+                    duration: 0.3,
                     ease: "power1.out",
                     onComplete: () => card.classList.remove('is-active')
                 });
             });
-        });
-    }
-
-    // --- Challenge Animation (Kept from previous version) ---
-    function initChallengeAnimation() {
-        if (!els.networkCanvas || document.body.classList.contains('reduced-motion')) return;
-        const canvas = els.networkCanvas;
-        const ctx = canvas.getContext('2d');
-        let nodes = [];
-        let animationFrameId;
-        function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; createNodes(); }
-        class Node {
-            constructor(x, y) { this.x = x; this.y = y; this.radius = Math.random() * 2 + 1; this.baseColor = 'rgba(168, 162, 154, 0.5)'; this.color = this.baseColor; this.isGlitched = false; }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
-        }
-        function createNodes() {
-            nodes = []; const density = window.innerWidth < 768 ? 80 : 60; const cols = Math.floor(canvas.width / density); const rows = Math.floor(canvas.height / density);
-            for (let i = 0; i < cols; i++) { for (let j = 0; j < rows; j++) { const x = i * density + (Math.random()) * density; const y = j * density + (Math.random()) * density; nodes.push(new Node(x, y)); } }
-        }
-        function connectNodes() {
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x; const dy = nodes[i].y - nodes[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 90) {
-                        ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
-                        const opacity = 1 - (dist / 90); const color = nodes[i].isGlitched && nodes[j].isGlitched ? `rgba(255, 107, 107, ${opacity * 0.5})` : `rgba(168, 162, 154, ${opacity * 0.4})`;
-                        ctx.strokeStyle = color; ctx.lineWidth = 0.5; ctx.stroke();
-                    }
-                }
-            }
-        }
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); nodes.forEach(node => node.draw()); connectNodes(); animationFrameId = requestAnimationFrame(animate); }
-        resizeCanvas(); animate(); window.addEventListener('resize', resizeCanvas);
-        ScrollTrigger.create({
-            trigger: '#challenge', start: 'top center', end: 'bottom center',
-            onUpdate: (self) => {
-                const progress = self.progress; nodes.forEach(node => {
-                    if (Math.random() < progress * 0.01) { node.isGlitched = true; node.color = `rgba(255, 107, 107, ${Math.random() * 0.5 + 0.5})`; }
-                    else if (node.isGlitched && Math.random() > 0.95) { node.isGlitched = false; node.color = node.baseColor; }
-                });
-            },
-            onLeaveBack: () => { nodes.forEach(node => { node.isGlitched = false; node.color = node.baseColor; }); }
         });
     }
 
