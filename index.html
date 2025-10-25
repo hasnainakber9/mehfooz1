@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script> 
 
 </head>
 <body class="antialiased">
@@ -43,6 +44,7 @@
 
     <div class="cosmic-background" id="cosmicBackground"></div>
     <div class="static-background" id="staticBackground"></div>
+    <canvas id="data-stream-canvas" class="data-stream-canvas"></canvas>
 
     <div id="site-wrapper" class="opacity-0">
         <header id="site-header" class="site-header">
@@ -75,7 +77,10 @@
             <section id="home" class="hero-section">
                 <div class="hero-content-container container">
                     <div class="hero-content">
-                        <h1 id="hero-headline">Clarity in the Digital Crossroads.</h1>
+                        <h1 id="hero-headline">
+                            <span class="word">Clarity</span> <span class="word">in</span> <span class="word">the</span> 
+                            <span class="word">Digital</span> <span class="word">Crossroads.</span>
+                        </h1>
                         <p id="hero-subheadline">Empowering the communities of Gilgit Baltistan with the tools to navigate the digital world safely and confidently.</p>
                     </div>
                 </div>
@@ -83,7 +88,7 @@
 
             <section id="featured-in" class="featured-section">
                 <div class="container">
-                    <div class="featured-bar reveal-up">
+                    <div class="featured-bar reveal-up" data-speed="0.2"> 
                         <div class="featured-title">
                             Featured in
                         </div>
@@ -111,7 +116,7 @@
                 <div class="container mx-auto max-w-4xl">
                     <div class="flex flex-col md:flex-row gap-12 items-center">
                         <div class="w-full md:w-1/2">
-                            <div class="journal-image-container reveal-up">
+                            <div class="journal-image-container reveal-up" data-speed="-0.1"> 
                                 <img src="https://framerusercontent.com/images/Fk9ZcXwxKKdy8uszFQl0yoC1V6I.png"
                                      alt="Stylized graphic representing digital connection and community in Gilgit Baltistan."
                                      loading="lazy">
@@ -127,29 +132,31 @@
             </section>
 
             <section id="approach" class="content-section">
-                <div class="container mx-auto max-w-5xl">
+                <div class="container mx-auto max-w-5xl" style="min-height: 250vh;"> 
                     <div class="text-center mb-20 section-header reveal-up">
                         <h2 class="section-title">An Ecosystem of Empowerment</h2>
                         <p class="section-body">Our solution is a unique, three-pronged approach that integrates culture, technology, and community to create a sustainable cycle of learning and trust.</p>
                     </div>
-                    <div class="grid md:grid-cols-3 gap-12 text-center" id="pillar-cards-container">
-                        <div class="pillar-card reveal-up">
-                            <div class="pillar-card-content">
-                                <h3 class="pillar-title">Wisdom, Amplified</h3>
-                                <p class="pillar-body">We don't just provide information; we build on existing foundations of trust by collaborating with local religious leaders (Ulema), empowering them as trusted digital literacy ambassadors within their communities.</p>
+                    <div class="approach-pin-wrapper"> 
+                        <div class="grid md:grid-cols-3 gap-12 text-center" id="pillar-cards-container">
+                            <div class="pillar-card reveal-up" data-card="1">
+                                <div class="pillar-card-content">
+                                    <h3 class="pillar-title">Wisdom, Amplified</h3>
+                                    <p class="pillar-body">We don't just provide information; we build on existing foundations of trust by collaborating with local religious leaders (Ulema), empowering them as trusted digital literacy ambassadors within their communities.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="pillar-card reveal-up">
-                            <div class="pillar-card-content">
-                                <h3 class="pillar-title">Personalized Guidance. Instantly.</h3>
-                                <p class="pillar-body">Harnessing AI, MehfoozBot offers personal, patient help, adapting to each user's language and learning style, making technology feel like a friend.</p>
+                            <div class="pillar-card reveal-up" data-card="2">
+                                <div class="pillar-card-content">
+                                    <h3 class="pillar-title">Personalized Guidance. Instantly.</h3>
+                                    <p class="pillar-body">Harnessing AI, MehfoozBot offers personal, patient help, adapting to each user's language and learning style, making technology feel like a friend.</p>
+                                </div>
+                                <button id="open-bot-demo-approach" class="btn btn-secondary mt-6 digital-glow-hover">See MehfoozBot in Action</button>
                             </div>
-                            <button id="open-bot-demo-approach" class="btn btn-secondary mt-6 digital-glow-hover">See MehfoozBot in Action</button>
-                        </div>
-                        <div class="pillar-card reveal-up">
-                            <div class="pillar-card-content">
-                                <h3 class="pillar-title">Knowledge, Co-Created</h3>
-                                <p class="pillar-body">Through short, localized mini-courses and a unique feedback ecosystem with local college students, we ensure our knowledge is always relevant, effective, and built with the community, for the community.</p>
+                            <div class="pillar-card reveal-up" data-card="3">
+                                <div class="pillar-card-content">
+                                    <h3 class="pillar-title">Knowledge, Co-Created</h3>
+                                    <p class="pillar-body">Through short, localized mini-courses and a unique feedback ecosystem with local college students, we ensure our knowledge is always relevant, effective, and built with the community, for the community.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
