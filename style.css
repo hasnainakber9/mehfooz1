@@ -37,7 +37,7 @@
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-glow: 0 0 20px rgba(0, 127, 255, 0.3); /* Changed to Azure */
+    --shadow-glow: 0 0 20px rgba(0, 127, 255, 0.3);
     --transition-fast: 0.15s ease-out; --transition-normal: 0.25s ease-out; --transition-slow: 0.4s ease-out;
     --z-background: -1; --z-content: 1; --z-navigation: 100; --z-floating-ui: 200; --z-modal-backdrop: 1001; --z-modal: 1002; --z-intro: 1003; --z-cursor: 10000;
 }
@@ -134,17 +134,16 @@ body.reduced-motion { cursor: auto; } body.reduced-motion #cursor-light, body.re
 .hero-content-container { position: relative; z-index: 2; padding: 0 1.5rem; }
 .hero-content { max-width: 900px; margin: 0 auto; }
 
-/* UPDATED: Prepare for SplitText - hide individual words initially */
+/* UPDATED: Prepare for SplitText - hide entire block initially */
 #hero-headline {
     font-family: var(--font-heading); font-weight: 700;
     font-size: clamp(2.75rem, 6vw, 5.5rem); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 1.5rem;
     opacity: 1; color: var(--color-text); 
     text-shadow: 0 0 10px rgba(234, 224, 213, 0.3), 0 0 20px rgba(234, 224, 213, 0.2);
+    /* GSAP will set individual word visibility */
 }
-/* Ensure words are hidden until GSAP runs */
-#hero-headline .word {
-    visibility: hidden;
-}
+
+/* DELETED .word styling - GSAP handles hiding/showing of split elements */
 
 #hero-subheadline {
     font-family: var(--font-body); font-size: clamp(1.25rem, 3vw, 1.75rem); color: var(--color-text); line-height: 1.5;
@@ -309,7 +308,7 @@ strong { color: var(--color-accent-gold); font-weight: 700; }
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table td:first-child { font-weight: 700; color: var(--color-text); }
 .comparison-table .check-mark { color: var(--color-accent-teal); font-size: 1.5rem; font-weight: bold; text-align: center; }
-.comparison-table .our-column { background-color: rgba(0, 255, 255, 0.1); } /* Cyan BG */
+.comparison-table .our-column { background-color: rgba(0, 255, 255, 0.1); }
 .comparison-table .our-column th { color: var(--color-accent-teal); }
 
 /* Insight Cards */
@@ -409,6 +408,7 @@ select.form-input { appearance: none; background-image: url("data:image/svg+xml,
     .loading-logo, .particle, .game-container > *, .spark { opacity: 1 !important; animation: none !important; }
     .pillar-card:hover::before { transform: scaleX(0) !important; }
     #hero-headline { animation: none !important; text-shadow: 0 0 10px rgba(234, 224, 213, 0.3); }
+    /* FIX: Ensure split words are visible on fallback */
     #hero-headline .word { visibility: visible; }
 }
 body.reduced-motion {
@@ -420,6 +420,7 @@ body.reduced-motion {
     .loading-logo, .particle, .game-container > *, .spark { opacity: 1 !important; animation: none !important; }
     .pillar-card:hover::before { transform: scaleX(0) !important; }
     #hero-headline { animation: none !important; text-shadow: 0 0 10px rgba(234, 224, 213, 0.3); }
+    /* FIX: Ensure split words are visible on fallback */
     #hero-headline .word { visibility: visible; }
 }
 @media (max-width: 768px) {
