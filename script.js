@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         siteHeader: '#site-header', navLinksContainer: '#nav-links', mobileNavToggle: '#mobile-nav-toggle',
         heroHeadline: '#hero-headline', heroSubheadline: '#hero-subheadline',
         cosmicBackground: '#cosmicBackground', staticBackground: '#staticBackground', networkCanvas: '#network-canvas',
-        dataStreamCanvas: '#data-stream-canvas', // NEW
+        dataStreamCanvas: '#data-stream-canvas',
         userCounter: '#user-counter', platformCounter: '#platform-counter',
         settingsToggleBtn: '#settings-toggle-btn', settingsModal: '#settings-modal', settingsCloseBtn: '#settings-close-btn',
         motionToggle: '#motion-toggle', helpToggleBtn: '#help-toggle-btn', keyboardHelp: '#keyboard-help',
@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
         openBotBtn: '#open-bot-demo-approach', botModal: '#bot-modal', closeBotBtn: '#close-bot-demo',
         modalChatLog: '#modal-chat-log', modalChatForm: '#modal-chat-form', modalChatInput: '#modal-chat-input', modalPillContainer: '#modal-question-pills',
         contactForm: '#contact-form', formSuccess: '#form-success', chatBubble: '#chatBubble',
-        pillarCardsContainer: '#pillar-cards-container'
+        pillarCardsContainer: '#pillar-cards-container',
+        approachSection: '#approach' // NEW selector for the main approach section
     };
 
     // --- Element Cache & State ---
@@ -289,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (elapsed > interval) {
                 lastTime = timestamp - (elapsed % interval);
 
-                ctx.fillStyle = 'rgba(26, 18, 11, 0.1)'; // Slight trail for effect
+                ctx.fillStyle = 'rgba(26, 18, 11, 0.1)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--color-accent-teal').trim() || '#008080';
@@ -299,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const text = codes[Math.floor(Math.random() * codes.length)];
                     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                    // Send the drop back to the top when it reaches the bottom or randomly
                     if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
                         drops[i] = 0;
                     }
@@ -316,7 +316,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function initHeroAnimation() {
         if (document.body.classList.contains('reduced-motion') || typeof gsap === 'undefined' || !els.heroHeadline || !els.heroSubheadline) return;
 
-        // Ensure the data stream canvas starts immediately
         initDataStreamCanvas();
 
         if (typeof SplitText === 'undefined') {
@@ -328,7 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Initialize SplitText on the headline
         splitHeadline = new SplitText(els.heroHeadline, { type: "words,chars", wordsClass: "word", charsClass: "char" });
 
         const tl = gsap.timeline({ delay: 0.8 });
@@ -375,12 +373,13 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              });
 
-             // 2. Parallax Effects (New)
+             // 2. Parallax Effects (New - ADDED force3D for smoother movement)
              gsap.utils.toArray('[data-speed]').forEach(elem => {
                  const speed = parseFloat(elem.getAttribute('data-speed'));
                  gsap.to(elem, {
-                     y: () => -(ScrollTrigger.maxScroll(window) * speed), // Calculate max travel distance
+                     y: () => -(ScrollTrigger.maxScroll(window) * speed),
                      ease: "none",
+                     force3D: true, // Use GPU acceleration to prevent jitter
                      scrollTrigger: {
                          trigger: elem,
                          start: "top bottom",
@@ -406,48 +405,60 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              }
 
-             // 4. Approach Section Pinning (New: Interactive Storytelling)
-             if (els.pillarCardsContainer) {
+             // 4. Approach Section Pinning (FIXED: Improved Pinning Logic)
+             if (els.pillarCardsContainer && els.approachSection) {
                  const cards = gsap.utils.toArray('.pillar-card');
                  
+                 // Create a single ScrollTrigger instance to control the whole section
                  ScrollTrigger.create({
-                     trigger: '#approach',
+                     trigger: els.approachSection,
                      start: 'top top',
                      end: 'bottom bottom',
                      pin: els.pillarCardsContainer, // Pin the card grid container
                      pinSpacing: true,
                      
                      onUpdate: (self) => {
-                         const totalDuration = self.end - self.start;
                          const progress = self.progress;
-
-                         // Calculate scroll-based opacity and glow for each card
+                         const cardDuration = 0.33; // Each card is active for 1/3 of the scroll
+                         
                          cards.forEach((card, index) => {
-                             // Define the scroll window for each card (e.g., 20% scroll for each)
-                             const startTime = index * 0.33; // 0.00, 0.33, 0.66
-                             const endTime = startTime + 0.33; // 0.33, 0.66, 1.00
-                             const cardProgress = gsap.utils.clamp(0, 1, (progress - startTime) / 0.2); // Animate over 20% scroll window
-
-                             // Glow intensity calculation (active at 0.5 - 1.0)
-                             const glowIntensity = gsap.utils.clamp(0, 1, (cardProgress - 0.5) * 2); 
+                             const startTime = index * cardDuration; 
+                             const endTime = startTime + cardDuration; 
                              
-                             // Scale the active card and dim the others
-                             const scale = 1 + (cardProgress * 0.05); // Subtle scale up to 1.05
+                             // Calculate progress specific to this card's activation window
+                             let cardProgress = 0;
+                             if (progress >= startTime && progress <= endTime) {
+                                 cardProgress = (progress - startTime) / cardDuration;
+                             } else if (progress > endTime) {
+                                 cardProgress = 1;
+                             }
+                             
+                             const cardActive = progress >= startTime && progress < startTime + 0.4; // Slightly overlap activation
+                             
+                             // Animate properties based on cardProgress (0 to 1)
+                             const scale = 1 + (cardProgress * 0.05); // Scale up to 1.05
                              const opacity = 0.5 + (cardProgress * 0.5); // Opacity up to 1.0
-
+                             const glowIntensity = Math.min(1, cardProgress * 2); // Quick ramp up of glow
+                             
                              gsap.to(card, {
                                  opacity: opacity,
                                  scale: scale,
-                                 boxShadow: `0 0 ${glowIntensity * 30}px rgba(0, 128, 128, ${glowIntensity * 0.6}), 0 0 15px rgba(218, 165, 32, 0.4)`,
+                                 // Dynamic boxShadow based on glow intensity
+                                 boxShadow: `0 0 ${glowIntensity * 30}px rgba(0, 128, 128, ${glowIntensity * 0.6}), 0 0 15px rgba(218, 165, 32, ${glowIntensity * 0.4})`,
                                  duration: 0.1,
                                  ease: "none",
+                                 force3D: true // Helps smooth the card movement/scaling
                              });
 
-                             // Animate the top border '::before' element (CSS only, but triggered by scroll)
-                             const beforeElement = card.querySelector('.pillar-card::before');
-                             if (beforeElement) {
-                                 const borderScale = gsap.utils.clamp(0, 1, cardProgress * 1.5);
-                                 gsap.set(beforeElement, { scaleX: borderScale });
+                             // Animate the top border '::before' element (Simulating CSS transition via JS)
+                             const borderScale = gsap.utils.clamp(0, 1, cardProgress * 1.5);
+                             gsap.set(card, { '--gsap-scaleX': borderScale }); 
+                             
+                             // Re-apply original hover effect class after the scroll sequence is complete
+                             if (!cardActive && progress > endTime - 0.1) {
+                                 card.classList.remove('is-active');
+                             } else if (cardActive) {
+                                 card.classList.add('is-active');
                              }
                          });
                      }
@@ -455,7 +466,9 @@ document.addEventListener('DOMContentLoaded', function() {
              }
 
              return () => { 
-                 if(splitHeadline) splitHeadline.revert(); // Revert split text on cleanup
+                 if(splitHeadline) splitHeadline.revert();
+                 // Kill the pinning ScrollTrigger on cleanup
+                 ScrollTrigger.getAll().forEach(st => st.kill()); 
              };
          });
          
@@ -469,9 +482,9 @@ document.addEventListener('DOMContentLoaded', function() {
          });
     }
 
-    // --- Pillar Card Hover Interaction (Overridden by ScrollTrigger on desktop, retained for quick hover) ---
+    // --- Pillar Card Hover Interaction (Retained for mobile/non-pinned scenarios) ---
     function initPillarCardInteraction() {
-        if (document.body.classList.contains('reduced-motion') || !els.pillarCardsContainer || window.innerWidth > 768) return;
+        if (document.body.classList.contains('reduced-motion') || !els.pillarCardsContainer || (window.innerWidth > 768 && els.approachSection)) return;
         
         const cards = els.pillarCardsContainer.querySelectorAll('.pillar-card');
         
@@ -502,13 +515,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- Chatbot, Contact, Modals, Accessibility (Kept from previous version) ---
-    const botResponses = {
-        "greeting": "Hello! How can I assist you today on your journey to digital clarity?", "default": "That's an interesting point. While this demo is limited, the full MehfoozBot explores topics like that in detail.", "misinformation": "Spotting misinformation involves a few key steps: Check the source's credibility, look for supporting evidence, be wary of emotionally charged language, and check the date.", "safety": "Online safety basics include using strong, unique passwords, enabling two-factor authentication, and being cautious about links or attachments.", "story": "Mehfooz began from listening to the community in Skardu. We realized the need wasn't just *more* tech, but *understanding* tech. You can read more in the 'Our Story' section.", "ulema": "We proudly partner with local Ulema (religious leaders). They serve as trusted community voices, helping bridge traditional wisdom with essential digital literacy skills."
-    };
-    const promptQuestions = {
-        "How do you work?": "ulema", "What's your story?": "story", "Spotting fake news?": "misinformation", "Staying safe online?": "safety"
-    };
+    // --- Remaining functions (Chatbot, Contact, Modals, Accessibility) are unchanged for this fix. ---
+    const botResponses = { "greeting": "Hello! How can I assist you today on your journey to digital clarity?", "default": "That's an interesting point. While this demo is limited, the full MehfoozBot explores topics like that in detail.", "misinformation": "Spotting misinformation involves a few key steps: Check the source's credibility, look for supporting evidence, be wary of emotionally charged language, and check the date.", "safety": "Online safety basics include using strong, unique passwords, enabling two-factor authentication, and being cautious about links or attachments.", "story": "Mehfooz began from listening to the community in Skardu. We realized the need wasn't just *more* tech, but *understanding* tech. You can read more in the 'Our Story' section.", "ulema": "We proudly partner with local Ulema (religious leaders). They serve as trusted community voices, helping bridge traditional wisdom with essential digital literacy skills." };
+    const promptQuestions = { "How do you work?": "ulema", "What's your story?": "story", "Spotting fake news?": "misinformation", "Staying safe online?": "safety" };
     const modalQuestions = ["How can I spot fake news?", "Is my WhatsApp safe?", "What is misinformation?"];
 
     function getBotResponse(userInput) {
